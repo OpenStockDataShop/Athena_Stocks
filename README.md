@@ -33,6 +33,7 @@ One stop shop for collection of Data Analytics and Data Visualization tool help 
   * ???
 ## **Acknowledgements**
 ---
+* [Open Source Collection Machine Learning models of Stock Prediction](https://awesomeopensource.com/project/huseinzol05/Stock-Prediction-Models)
 
 ## **License**
 
