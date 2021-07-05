@@ -39,13 +39,15 @@ Here are the high level summary of tasks required achieve the said goal(s) for t
 ---
 * Frontend
   * HTML
-  * CSS
+  * CSS/Bootstrap
   * ReactJS
 * Backend
   * Python Flask
   * Python AI/ML, Web-Scrapper support libraries
 * Database
   * PostgreSQL
+
+**Note**: We are exploring the possibility of building the entire stack in Django for 2-3 days, if successful it would allow us to implement entire project with python. 
 ## **Acknowledgements**
 ---
 * [Open Source Collection Machine Learning models of Stock Prediction](https://awesomeopensource.com/project/huseinzol05/Stock-Prediction-Models)
