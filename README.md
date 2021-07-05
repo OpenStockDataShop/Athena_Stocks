@@ -27,14 +27,17 @@ Here are the high level summary of tasks required achieve the said goal(s) for t
 - [ ] **AI/ML models** to process collected data and provide predictions
   - [ ] Generate Abstracted-Text summary of new articles collected by Web-Scraper
   - [ ] LSTM model for buy/sell/hold predictions for a given stock
-- [ ] **FrontEnd UI**
+- [ ] **Frontend UI** on client side
   - [ ] Ability for user to enter the stock(s) they are interested in for day-to-day tracking 
   - [ ] Ability for user to enter there personal portfolio across multiple platforms through CSV file
   - [ ] Data Visualization tool(s) for statistics on User portfolio
   - [ ] Data Visualization tool(s) for performance statistics on selected stock(s)
+- [ ] **Backend** on server side
+  - [ ] Create email for the organization and heroku account associated with it.
+  - [ ] Build backend server using Flask library
+  - [ ] Deploy the application using the organization's heroku account. 
 - [ ] **Database**
-- [ ] **Backend**
-  
+
 ## **Web Development Stack**
 ---
 * Frontend
