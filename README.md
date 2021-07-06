@@ -1,6 +1,6 @@
 # **Athena_Stocks**
 
-by Aditya Sharoff, Felina Kang, Haeyoon Chang and [Vinodh Kotipalli](vkotipa2@pdx.edu) 2021
+by [Aditya Sharoff](asharoff@pdx.edu), [Felina Kang](felina2@pdx.edu), [Haeyoon Chang](haeyoon@pdx.edu) and [Vinodh Kotipalli](vkotipa2@pdx.edu) 2021
 
 
 ## **Project Description**
@@ -37,6 +37,8 @@ Here are the high level summary of tasks required achieve the said goal(s) for t
   - [ ] Build backend server using Flask library
   - [ ] Deploy the application using the organization's heroku account. 
 - [ ] **Database**
+  - [ ] Define Schema for storing User Accounts and time series dataset for the stock(s)
+  - [ ] Implement database interaction based on the Schema 
 
 ## **Web Development Stack**
 ---
