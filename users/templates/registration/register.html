@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <div class="user-section">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="bt btn-sign-up" type="submit">Sign Up</button>
+            {{ form.errors }}
+        </form>
+    </div>
+</html>
