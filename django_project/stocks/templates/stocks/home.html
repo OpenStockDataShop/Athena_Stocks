@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <navbar class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Athena</a>
+                <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'stocks-home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/UserPage">UserPage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </u1>
+            </navbar>
+        </div>
+        <div class="container-fluid">
+            <h1 class="p-3 mb-2 bg-primary text-white text-center">Welcome To Athena Stocks</h1>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text-start">
+                        <h1>Who is Athena?</h1>
+                        <p>Athena is the greek goddess of Wisdom. Born of Zeus’s thoughts she is knowledge incarnate. Knowledge is power, especially in this day and age. 
+                            Our mission is to provide you with the knowledge you need to better invest in stocks. 
+                            A caution, just like the tale of Icarus, we will provide you with wings. However we are not responsible if you fly too close to the sun.</p>
+                    </div>
+                    <img src="https://cdn.pixabay.com/photo/2017/04/25/00/21/goodness-2258249_960_720.jpg">
+                </div>
+                <div class="col-sm-6">
+                    <h1>Get started Today!</h1>
+                    <p>checkout the featured stocks below!
+                        Go to the user page and login
+                        Not a registered user? Register Today!
+                        <br>
+                        <br>
+                        <br>
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Nvidia</h5>
+                              <p class="card-text">Check out this awesome tech company</p>
+                              <a href="https://www.google.com/finance/quote/NVDA:NASDAQ" class="btn btn-primary">Learn More</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Amazon</h5>
+                              <p class="card-text">Check out this awesome tech company</p>
+                              <a href="https://www.google.com/finance/quote/AMZN:NASDAQ" class="btn btn-primary">Learn More</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Intel</h5>
+                              <p class="card-text">Check out this awesome tech company</p>
+                              <a href="https://www.google.com/finance/quote/INTC:NASDAQ" class="btn btn-primary">Learn More</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Nestle</h5>
+                              <p class="card-text">Check out this awesome food company</p>
+                              <a href="https://www.google.com/finance/quote/NESTLEIND:NSE" class="btn btn-primary">Learn More</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Google</h5>
+                              <p class="card-text">check out this awesome tech company</p>
+                              <a href="https://www.google.com/finance/quote/GOOG:NASDAQ" class="btn btn-primary">Learn More</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Unity</h5>
+                              <p class="card-text">Checkout this awesome tech company</p>
+                              <a href="https://www.google.com/finance/quote/U:NYSE" class="btn btn-primary">Learn More</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>                                                
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
