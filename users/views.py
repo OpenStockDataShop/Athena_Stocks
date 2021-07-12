@@ -31,12 +31,18 @@ def logout_view(request):
 
 def user_view(request):
     if request.method == 'POST':
+        if(request.POST.get('send') == "delete"):
+            stock = request.POST.get('stock')
+            m.Fav_Stocks.objects.get(stocks=stock).delete()
+            return redirect('/')
+
         username = request.POST.get('username')
         stock = request.POST.get('stock')
-        author = request.POST.get('author')
+        author = request.user
         date_made = datetime.now()
-        z = m.Fav_Stocks(user=username, stocks=stock, date_made=date_made, author=author)
-        z.save()
-        return redirect('/')
+        if(username!="" and stock!=""):
+            z = m.Fav_Stocks(user=username, stocks=stock, date_made=date_made, author=author)
+            z.save()
+            return redirect('/')
     form = cFav_Stocks
     return render(request, 'registration/the_stocks.html', {'form': form})

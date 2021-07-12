@@ -37,10 +37,10 @@
                 </u1>
             </navbar>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid text-center">
             {% csrf_token %}
-            <div class="text-start row">
-                <div class="card col-sm-6">
+            <div class="mx-auto row">
+                <div class="card col-sm-6 text-center mx-auto">
                     <form method="POST" action="">
                         {% csrf_token %}
                         <div class="card-title text-center bg-primary text-white"><h1>Enter information below to add to your stock list</h1></div>
@@ -58,7 +58,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" name="create" class="btn btn-success"><h1>CREATE</h1></button>
+                        <div class="row">
+                                <button type="submit" name="send" value="create" class="col-sm-6 btn btn-success"><h1>CREATE</h1></button>
+                                <button type="submit" name="send" value="delete" class="col-sm-6 btn btn-danger"><h1>DELETE</h1></button>
+                        </div>
                     </form>
                 </div>
             </div>
