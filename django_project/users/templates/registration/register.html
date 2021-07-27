@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <div class="user-section">
+        <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
