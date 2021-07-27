@@ -86,6 +86,23 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
+name = "dateparser"
+version = "1.0.0"
+description = "Date parsing library designed to parse dates from HTML pages"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+python-dateutil = "*"
+pytz = "*"
+regex = "!=2019.02.19"
+tzlocal = "*"
+
+[package.extras]
+calendars = ["convertdate", "hijri-converter", "convertdate"]
+
+[[package]]
 name = "django"
 version = "3.2.5"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
@@ -133,6 +150,27 @@ description = "A platform independent file lock."
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "googlefinance"
+version = "0.7"
+description = "Python module to get real-time (no delay) stock data from Google Finance API"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "googlenews"
+version = "1.5.9"
+description = "Google News search for Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+beautifulsoup4 = "*"
+dateparser = "*"
+python-dateutil = "*"
 
 [[package]]
 name = "idna"
@@ -421,6 +459,17 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "tzlocal"
+version = "2.1"
+description = "tzinfo object for the local timezone"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pytz = "*"
+
+[[package]]
 name = "urllib3"
 version = "1.26.6"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -448,7 +497,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.1"
-content-hash = "4378d2fdb4c4a9be1606b9ebb16aae05280ca61feb6edb2c8b26b5a0e167d47b"
+content-hash = "5bbc4d27d08f2ddedcd3c164c5789a923a010fad63749ed6aa56ef0e07d9fe77"
 
 [metadata.files]
 asgiref = [
@@ -483,6 +532,10 @@ cssselect = [
     {file = "cssselect-1.1.0-py2.py3-none-any.whl", hash = "sha256:f612ee47b749c877ebae5bb77035d8f4202c6ad0f0fc1271b3c18ad6c4468ecf"},
     {file = "cssselect-1.1.0.tar.gz", hash = "sha256:f95f8dedd925fd8f54edb3d2dfb44c190d9d18512377d3c1e2388d16126879bc"},
 ]
+dateparser = [
+    {file = "dateparser-1.0.0-py2.py3-none-any.whl", hash = "sha256:17202df32c7a36e773136ff353aa3767e987f8b3e27374c39fd21a30a803d6f8"},
+    {file = "dateparser-1.0.0.tar.gz", hash = "sha256:159cc4e01a593706a15cd4e269a0b3345edf3aef8bf9278a57dac8adf5bf1e4a"},
+]
 django = [
     {file = "Django-3.2.5-py3-none-any.whl", hash = "sha256:c58b5f19c5ae0afe6d75cbdd7df561e6eb929339985dbbda2565e1cabb19a62e"},
     {file = "Django-3.2.5.tar.gz", hash = "sha256:3da05fea54fdec2315b54a563d5b59f3b4e2b1e69c3a5841dda35019c01855cd"},
@@ -497,6 +550,13 @@ feedparser = [
 filelock = [
     {file = "filelock-3.0.12-py3-none-any.whl", hash = "sha256:929b7d63ec5b7d6b71b0fa5ac14e030b3f70b75747cef1b10da9b879fef15836"},
     {file = "filelock-3.0.12.tar.gz", hash = "sha256:18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59"},
+]
+googlefinance = [
+    {file = "googlefinance-0.7.tar.gz", hash = "sha256:3b5ef65fb850be8825eebfd2404195f7547d05735ad1d87cc2d7b595f9509ef5"},
+]
+googlenews = [
+    {file = "GoogleNews-1.5.9-py3-none-any.whl", hash = "sha256:e731a45958e5846f0a09f775fc0c14cbe8b3205d79c5dc59a0fb1b278934d422"},
+    {file = "GoogleNews-1.5.9.tar.gz", hash = "sha256:24343139f145c80cc8f5425c2a32d4932fd1ddc532444ff88a8758c092cb0e3c"},
 ]
 idna = [
     {file = "idna-3.2-py3-none-any.whl", hash = "sha256:14475042e284991034cb48e06f6851428fb14c4dc953acd9be9a5e95c7b6dd7a"},
@@ -772,6 +832,10 @@ typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
     {file = "typing_extensions-3.10.0.0-py3-none-any.whl", hash = "sha256:779383f6086d90c99ae41cf0ff39aac8a7937a9283ce0a414e5dd782f4c94a84"},
     {file = "typing_extensions-3.10.0.0.tar.gz", hash = "sha256:50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"},
+]
+tzlocal = [
+    {file = "tzlocal-2.1-py2.py3-none-any.whl", hash = "sha256:e2cb6c6b5b604af38597403e9852872d7f534962ae2954c7f35efcb1ccacf4a4"},
+    {file = "tzlocal-2.1.tar.gz", hash = "sha256:643c97c5294aedc737780a49d9df30889321cbe1204eac2c2ec6134035a92e44"},
 ]
 urllib3 = [
     {file = "urllib3-1.26.6-py2.py3-none-any.whl", hash = "sha256:39fb8672126159acb139a7718dd10806104dec1e2f0f6c88aab05d17df10c8d4"},
