@@ -5,6 +5,15 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style> 
+            H1 { 
+                text-align: center;
+            }
+            .custom-box {
+                background-color: lightgray;
+                height: 60vh;
+            }
+        </style>
 
         <title>Registration</title>
         <!-- Taken from https://github.com/twbs/bootstrap -->
@@ -40,18 +49,20 @@
                 </u1>
             </navbar>
         </div>
-        <div class="container-fluid vertical-center horizontal-center">
+
+        <!-- registration box-->
+        <div class="col d-flex custom-box justify-content-center align-items-center">
             <div class="user-section">
                 <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
-                <h1 class="text-center">Create an Account</h1>
-                <form method="POST">
+                <H1>Create an Account</H1>
+                <form method="POST col justify-content-center">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {{ form.as_table }}
                     <button class="bt btn-sign-up" type="submit">Sign Up</button>
                     {{ form.errors }}
                     <!-- based on this tutorial: https://mdbootstrap.com/docs/standard/forms/overview/#! -->
                     <div class="row mb-4">
-                        <div class="col d-flex justify-content-center">
+                        <div class="col d-flex justify-content-center ">
                             <div class="form-check">
                                 <input type="checkbox" value="remember-me" checked />
                                 <label class="form-check-label">Remember me</label>
