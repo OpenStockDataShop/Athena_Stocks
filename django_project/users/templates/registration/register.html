@@ -1,12 +1,69 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
-    <div class="user-section">
-        <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="bt btn-sign-up" type="submit">Sign Up</button>
-            {{ form.errors }}
-        </form>
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Registration</title>
+        <!-- Taken from https://github.com/twbs/bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <!-- essentially same navbar as home page, just with register highlighted-->
+        <div class="container-fluid">
+            <navbar class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Athena</a>
+                <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/UserPage">UserPage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </u1>
+            </navbar>
+        </div>
+        <div class="container-fluid vertical-center horizontal-center">
+            <div class="user-section">
+                <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
+                <h1 class="text-center">Create an Account</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="bt btn-sign-up" type="submit">Sign Up</button>
+                    {{ form.errors }}
+                    <!-- based on this tutorial: https://mdbootstrap.com/docs/standard/forms/overview/#! -->
+                    <div class="row mb-4">
+                        <div class="col d-flex justify-content-center">
+                            <div class="form-check">
+                                <input type="checkbox" value="remember-me" checked />
+                                <label class="form-check-label">Remember me</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- CHANGE: link to home for now-->
+                            <a href="{% url 'stocks-home' %}">Forgot Password?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
