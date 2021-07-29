@@ -6,12 +6,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <style> 
-            H1 { 
+            h1 { 
                 text-align: center;
             }
             .custom-box {
+                height: 80vh;
+            }
+            .page {
                 background-color: lightgray;
-                height: 60vh;
             }
         </style>
 
@@ -19,8 +21,8 @@
         <!-- Taken from https://github.com/twbs/bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
-    <body>
-        <!-- essentially same navbar as home page, just with register highlighted-->
+    <body class="page">
+        <!-- same navbar as home page, just with register highlighted-->
         <div class="container-fluid">
             <navbar class="navbar navbar-dark bg-dark">
                 <a class="navbar-brand" href="#">Athena</a>
@@ -52,27 +54,47 @@
 
         <!-- registration box-->
         <div class="col d-flex custom-box justify-content-center align-items-center">
-            <div class="user-section">
+            <div class="user-section p-5 mb-2 bg-light">
                 <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
-                <H1>Create an Account</H1>
-                <form method="POST col justify-content-center">
+                <!-- formatting based on these tutorials/documentation: 
+                        https://mdbootstrap.com/docs/standard/forms/overview/#! 
+                        https://getbootstrap.com/docs/4.0/components/forms/
+                        https://fix.code-error.com/adding-a-usercreationform-to-html-in-django/ -->
+                <form method="post">
                     {% csrf_token %}
-                    {{ form.as_table }}
-                    <button class="bt btn-sign-up" type="submit">Sign Up</button>
-                    {{ form.errors }}
-                    <!-- based on this tutorial: https://mdbootstrap.com/docs/standard/forms/overview/#! -->
-                    <div class="row mb-4">
-                        <div class="col d-flex justify-content-center ">
-                            <div class="form-check">
-                                <input type="checkbox" value="remember-me" checked />
-                                <label class="form-check-label">Remember me</label>
+                    <h1 class="mb-5">Create an Account</h1>
+                    <form action="POST">
+                        {% csrf_token %} 
+                        <div class="form-group">    
+                            {{form.username.label}}
+                            {{form.username}}
+                        </div>
+                        <div class="form-group">
+                            {{form.password1.label}}
+                            {{form.password1}}
+                        </div>
+                        <div class="form-group">
+                            {{form.password2.label}}
+                            {{form.password2}}
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col d-flex justify-content-center ">
+                                <div class="form-check">
+                                    <input type="checkbox" value="remember-me" checked />
+                                    <label class="form-check-label">Remember me</label>
+                                </div>
+                            </div>
+                            <div class="col d-flex">
+                                <!-- CHANGE: link to home for now-->
+                                <a href="/accounts/login">Already have an account?</a>
                             </div>
                         </div>
-                        <div class="col">
-                            <!-- CHANGE: link to home for now-->
-                            <a href="{% url 'stocks-home' %}">Forgot Password?</a>
+                        <div class="col d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
                         </div>
-                    </div>
+                        {{ form.errors }}
+                    </form>
+                    {{ form.errors }}
                 </form>
             </div>
         </div>

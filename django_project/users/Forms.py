@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from django.contrib import admin
 from datetime import datetime, timezone
 
+
 class cFav_Stocks(forms.ModelForm):
     class Meta:
         model = m.Fav_Stocks
