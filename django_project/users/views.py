@@ -6,10 +6,21 @@ from stocks import models as m
 from django.utils import timezone
 from datetime import datetime
 
+# placeholder code based on https://stackoverflow.com/questions/13523286/how-to-add-placeholder-to-forms-of-django-registration
+
 
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        form.fields['username'].widget.attrs.update({
+            'placeholder': 'Username'
+        })
+        form.fields['password1'].widget.attrs.update({
+            'placeholder': 'Password',
+        })
+        form.fields['password2'].widget.attrs.update({
+            'placeholder': 'Password Confirmation'
+        })
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -21,6 +32,15 @@ def register(request):
             print(form.errors)
             return redirect('/register')
     form = UserCreationForm()
+    form.fields['username'].widget.attrs.update({
+        'placeholder': 'Username'
+    })
+    form.fields['password1'].widget.attrs.update({
+        'placeholder': 'Password'
+    })
+    form.fields['password2'].widget.attrs.update({
+        'placeholder': 'Password Confirmation'
+    })
     return render(request, 'registration/register.html', {'form': form})
 
 # Create your views here.
