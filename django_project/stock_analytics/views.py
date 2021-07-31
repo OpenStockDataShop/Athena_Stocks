@@ -3,8 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Stock
 
-
-import math
+from .lstm import get_lstm_rec
 
 # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#queryset-api
 
@@ -42,8 +41,14 @@ def index(request):
     
 
     # logic for lstm 
+    rec = get_lstm_rec()
+
+    lstm_rec = [rec, rec]
+
     context = {
-        'data': zip(fav_list, list_of_list, momentum_rec)
+        'user': request.user,
+        'momentum_rec': zip(fav_list, momentum_rec),
+        'lstm_rec': zip(fav_list, lstm_rec)
     }
 
-    return render(request, 'stock_analytics/home.html', context)
+    return render(request, 'stocks/trading_rec.html', context)
