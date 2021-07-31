@@ -1,12 +1,9 @@
-import newspaper
-from GoogleNews import GoogleNews
-import pandas as pd
-import re
 
-import dateparser
-import datetime
+import requests
 
 # inspired from ref: https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime
+import re
+import dateparser
 def getDateFromPeriod(period):
     periodSplit = re.findall('(\d+|[A-Za-z]+)',period)
     for i in range(len(periodSplit)):
@@ -26,6 +23,15 @@ def getDateFromPeriod(period):
     date = dateparser.parse(dateString)
     return date
 
+def extractDateFromDatetime(date):
+    pass
+# inspired from example code from ref: https://pypi.org/project/GoogleNews/
+from GoogleNews import GoogleNews
+import datetime
+import pandas as pd
+import numpy as np
+import time
+import http.cookiejar, urllib.request
 def getArticlesDataFrameFromGoogleNews(symbol,period=None):
     endDate = datetime.datetime.now()
     if period is None:
@@ -34,8 +40,8 @@ def getArticlesDataFrameFromGoogleNews(symbol,period=None):
         startDate = getDateFromPeriod(period)
 
     googlenews = GoogleNews()
+    googlenews.clear()
     googlenews.search(symbol)
-
     pageResults = googlenews.results()
     df = pd.DataFrame(pageResults)
     i = 2
@@ -52,6 +58,18 @@ def getArticlesDataFrameFromGoogleNews(symbol,period=None):
     df['FullText'] = df['link'].apply(getFullArticleTextFromURL)
     df = df[df['FullText'] != "ERROR"]
     df['Summary'] = df['link'].apply(getArticleSummaryFromURL)
+
+    columns = ['SummaryScore-neg','SummaryScore-neu','SummaryScore-pos','SummaryScore-compound']
+    scores = pd.DataFrame(np.stack(np.array(df['Summary'].apply(getSentimentFromText))),columns=columns)
+    for key in columns:
+        df[key] = scores[key]
+
+    columns = ['FullTextScore-neg','FullTextScore-neu','FullTextScore-pos','FullTextScore-compound']
+    scores = pd.DataFrame(np.stack(np.array(df['FullText'].apply(getSentimentFromText))),columns=columns)
+    for key in columns:
+        df[key] = scores[key]
+
+    googlenews.clear()
     return df
 
 # inspired from example code from ref: https://pypi.org/project/newspaper3k/
@@ -77,16 +95,33 @@ def getArticleSummaryFromURL(url):
     return article.summary
 
 
+# inspired from ref: https://realpython.com/python-nltk-sentiment-analysis/
+from nltk.sentiment import SentimentIntensityAnalyzer
+from nltk.tokenize import sent_tokenize
+import nltk
+nltk.download('vader_lexicon')
+def getSentimentFromText(text,scoreType=None):
+    sia = SentimentIntensityAnalyzer()
+    sentimentScores = dict()
+    keys = ['neg','neu','pos','compound']
+    for key in keys:
+        sentimentScores[key] = 0
 
+    count = 0
+    for sentance in sent_tokenize(text):
+        scores = sia.polarity_scores(sentance)
+        for key in keys:
+            sentimentScores[key] = ((count*sentimentScores[key]) + scores[key]) / (count + 1)
+        count += 1
 
-
+    return [sentimentScores[key] for key in keys]
 
 
 if __name__ == '__main__':
     #getFullArticleTextFromURL('https://www.businessinsider.com/apple-iphone-12-pro-review')
     #getFullArticleTextFromURL('https://www.businessinsider.com/kamala-harris-staffers-toxic-office-culture-dysfunction-2021-7')
-    df = getArticlesDataFrameFromGoogleNews('AAPL')
-    print(df.head())
-
+    df = getArticlesDataFrameFromGoogleNews('TSLA','1d')
+    print(df[['FullDate','date','SummaryScore-neg','SummaryScore-neu','SummaryScore-pos','SummaryScore-compound']].head())
+    print(df[['FullDate','date','FullTextScore-neg','FullTextScore-neu','FullTextScore-pos','FullTextScore-compound']].head())
 
 
