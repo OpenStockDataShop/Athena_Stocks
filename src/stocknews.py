@@ -1,3 +1,21 @@
+import os
+import sys
+
+pyenvdir = sys.prefix
+download_dir= pyenvdir.replace('\\', '/') + '/lib/nltk_data'
+if not os.path.isdir(download_dir):
+    os.mkdir(download_dir)
+    
+import nltk
+nltk.download('vader_lexicon',download_dir=download_dir)
+
+projdir = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/').replace('C:', '')
+
+datadir = projdir.replace('\\', '/') + '/data'
+
+if not os.path.isdir(datadir):
+    os.mkdir(datadir)
+
 # inspired from ref: https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime
 import re
 import dateparser
@@ -21,7 +39,7 @@ def getDateFromPeriod(period):
     return date
 
 def extractDateFromDatetime(date):
-    return date.strftime('%y-%m-%d')
+    return date.strftime('%Y-%m-%d')
 # inspired from example code from ref: https://pypi.org/project/GoogleNews/
 from GoogleNews import GoogleNews
 import datetime
@@ -96,8 +114,6 @@ def getArticleSummaryFromURL(url):
 # inspired from ref: https://realpython.com/python-nltk-sentiment-analysis/
 from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk.tokenize import sent_tokenize
-import nltk
-nltk.download('vader_lexicon')
 def getSentimentFromText(text,scoreType=None):
     sia = SentimentIntensityAnalyzer()
     sentimentScores = dict()
@@ -125,10 +141,38 @@ def getPerDaySentimentScoresFromGoogleNews(symbol,period=None):
     sentimentScores = sentimentScores.groupby(['ActualDate']).mean()
     sentimentScores = sentimentScores.reset_index(level=0)
     return sentimentScores
+
+import yfinance as yf
+def getHistoricalDataSet(symbol,period=None):
+    sentimentScores = getPerDaySentimentScoresFromGoogleNews(symbol,period)
+
+    start = datetime.datetime.strptime(np.min(sentimentScores['ActualDate']),"%Y-%m-%d")
+    end = datetime.datetime.strptime(np.max(sentimentScores['ActualDate']),"%Y-%m-%d")
+    end += datetime.timedelta(days=1)
+
+    stockPrices = yf.download(symbol,start=start,end=end)
+    stockPrices = stockPrices.reset_index(level=0)
+    stockPrices['ActualDate'] = stockPrices['Date'].apply(extractDateFromDatetime)
+
+    stockHistory = sentimentScores.merge(stockPrices,how='inner',on='ActualDate')
+
+    stockHistory = stockHistory.drop(['Date'],axis=1)
+    stockHistory = stockHistory.rename(columns={'ActualDate':'Date'})
+
+    stockHistory['Symbol'] = symbol
+
+    return stockHistory
+
+def writeStockHistoryToCSV(symbol,period=None):
+    csvpath = datadir + '/StocknewsDataset' + symbol + '.csv'
+    stockHistory = getHistoricalDataSet(symbol,period)
+    stockHistory.to_csv(csvpath,index=False)
+
 if __name__ == '__main__':
     #getFullArticleTextFromURL('https://www.businessinsider.com/apple-iphone-12-pro-review')
     #getFullArticleTextFromURL('https://www.businessinsider.com/kamala-harris-staffers-toxic-office-culture-dysfunction-2021-7')
-    scores = getPerDaySentimentScoresFromGoogleNews('TSLA','1d')
-    print(scores.head())
+    #scores = getPerDaySentimentScoresFromGoogleNews('TSLA','1d')
+    #print(scores.head())
 
+    writeStockHistoryToCSV('AAPL','1w')
 
