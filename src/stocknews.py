@@ -1,6 +1,3 @@
-
-import requests
-
 # inspired from ref: https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime
 import re
 import dateparser
@@ -24,7 +21,7 @@ def getDateFromPeriod(period):
     return date
 
 def extractDateFromDatetime(date):
-    pass
+    return date.strftime('%y-%m-%d')
 # inspired from example code from ref: https://pypi.org/project/GoogleNews/
 from GoogleNews import GoogleNews
 import datetime
@@ -54,6 +51,7 @@ def getArticlesDataFrameFromGoogleNews(symbol,period=None):
         if lastDate < startDate:
             break
     df['FullDate'] = df['date'].apply(getDateFromPeriod)
+    df['ActualDate'] = df['FullDate'].apply(extractDateFromDatetime)
     df = df[df['FullDate'] >= startDate]
     df['FullText'] = df['link'].apply(getFullArticleTextFromURL)
     df = df[df['FullText'] != "ERROR"]
@@ -116,12 +114,21 @@ def getSentimentFromText(text,scoreType=None):
 
     return [sentimentScores[key] for key in keys]
 
+def getPerDaySentimentScoresFromGoogleNews(symbol,period=None):
+    keys = ['ActualDate','SummaryScore-neg','SummaryScore-neu','SummaryScore-pos','SummaryScore-compound','FullTextScore-neg','FullTextScore-neu','FullTextScore-pos','FullTextScore-compound']
 
+    newsArticles = getArticlesDataFrameFromGoogleNews(symbol,period)
+    sentimentScores = pd.DataFrame()
+    for key in keys:
+        sentimentScores[key] = newsArticles[key]
+    
+    sentimentScores = sentimentScores.groupby(['ActualDate']).mean()
+    sentimentScores = sentimentScores.reset_index(level=0)
+    return sentimentScores
 if __name__ == '__main__':
     #getFullArticleTextFromURL('https://www.businessinsider.com/apple-iphone-12-pro-review')
     #getFullArticleTextFromURL('https://www.businessinsider.com/kamala-harris-staffers-toxic-office-culture-dysfunction-2021-7')
-    df = getArticlesDataFrameFromGoogleNews('TSLA','1d')
-    print(df[['FullDate','date','SummaryScore-neg','SummaryScore-neu','SummaryScore-pos','SummaryScore-compound']].head())
-    print(df[['FullDate','date','FullTextScore-neg','FullTextScore-neu','FullTextScore-pos','FullTextScore-compound']].head())
+    scores = getPerDaySentimentScoresFromGoogleNews('TSLA','1d')
+    print(scores.head())
 
 
