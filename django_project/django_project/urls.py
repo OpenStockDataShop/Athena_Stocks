@@ -24,5 +24,6 @@ urlpatterns = [
     path('enter_data/', user_views.user_view, name='the_user_view'),
     path('logout/', user_views.logout_view, name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('analytics/', include('stock_analytics.urls'), name='analytics'),
     path('', include('stocks.urls')),
 ]
