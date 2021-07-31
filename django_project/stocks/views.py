@@ -15,7 +15,7 @@ def home(request):
 def about(request):
     return render(request, 'stocks/about.html')
 
-<!-- https://docs.djangoproject.com/en/3.2/topics/db/queries/ inspiration taken from this website for fetching data from db -->
+# <!-- https://docs.djangoproject.com/en/3.2/topics/db/queries/ inspiration taken from this website for fetching data from db -->
 @login_required
 def userPage(request):
     if(request.user.is_authenticated):
