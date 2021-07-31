@@ -19,23 +19,31 @@ def index(request):
         for fav in fav_stocks:
             fav_list.append(fav.stocks)
 
-    # Query historical prices of the favorite stock
+    # query historical prices of the favorite stock
     list_of_list = []
     for fav in fav_list:
-
-        query_results = Stock.objects.filter(name='tsla').order_by('date')
+        query_results = Stock.objects.filter(name=fav).order_by('date')
         price_list = []
         for s in query_results:
             price_list.append(s.price)
         list_of_list.append(price_list)
 
 
-    recommendations = ['buy']
+    # logic for moving average - momentum trading
+    avg_list = []
+    momentum_rec = []
+    for list in list_of_list:
+        avg = sum(list[:-1])/len(list)
+        avg_list.append(avg)
+        if list[-1] < avg:
+            momentum_rec.append('buy')
+        else:
+            momentum_rec.append('sell')
+    
 
+    # logic for lstm 
     context = {
-        'fav_stocks' : fav_list,
-        'list_of_price_lists': list_of_list,
-        'recommendations': recommendations,
+        'data': zip(fav_list, list_of_list, momentum_rec)
     }
 
     return render(request, 'stock_analytics/home.html', context)
