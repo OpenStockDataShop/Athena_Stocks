@@ -1,12 +1,126 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
-    <div class="user-section">
-        <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="bt btn-sign-up" type="submit">Sign Up</button>
-            {{ form.errors }}
-        </form>
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style> 
+            h1 { 
+                text-align: center;
+            }
+            .custom-box {
+                height: 80vh;
+            }
+            .page {
+                background-color: lightgray;
+            }
+            .hide {
+                display: none;
+            }
+            .passwordHelp:hover + .hide {
+                display: block;
+                color: lightgray;
+            }
+        </style>
+
+        <title>Registration</title>
+        <!-- Taken from https://github.com/twbs/bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body class="page">
+        <!-- same navbar as home page, just with register highlighted-->
+        <div class="container-fluid">
+            <navbar class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Athena</a>
+                <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/UserPage">UserPage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </u1>
+            </navbar>
+        </div>
+
+        <!-- registration box-->
+        <div class="col d-flex custom-box justify-content-center align-items-center">
+            <div class="user-section p-4 mb-2 bg-light">
+                <!-- https://docs.djangoproject.com/en/3.2/topics/forms/ taken as inpiration for submitting form -->
+                <!-- formatting based on these tutorials/documentation: 
+                        https://mdbootstrap.com/docs/standard/forms/overview/#! 
+                        https://getbootstrap.com/docs/4.0/components/forms/
+                        https://fix.code-error.com/adding-a-usercreationform-to-html-in-django/ -->
+                <form method="post">
+                    {% csrf_token %}
+                    <h1 class="mb-5">Create an Account</h1>
+                    <form action="POST" class="needs-validation" novalidate>
+                        {% csrf_token %} 
+                        <div class="form-group col d-flex justify-content-center">    
+                            {{form.username}}
+                            {{form.username.error}}
+                            <div class="invalid-tooltip">
+                                Please enter a valid username.
+                            </div>
+                        </div>
+                        <div class="form-group col d-flex justify-content-center passwordHelp">
+                            {{form.password1}}
+                            {{form.password1.error}}
+                            <div class="invalid-tooltip">
+                                Please enter a valid password.
+                            </div>
+                        </div>
+                        <div class="hide">
+                            Password must include 8-20 characters, at least one special character and one uppercase letter, and no spaces.
+                        </div>
+                        <div class="form-group col d-flex justify-content-center">
+                            {{form.password2}}
+                            {{form.password2.error}}
+                            <div class="invalid-tooltip">
+                                Passwords do not match.
+                            </div>
+                        </div>
+                        <div class="col mb-4 d-flex  justify-content-center mb-3">
+                            <a href="/accounts/login">Already have an account?</a>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                        </div>
+                    </form>
+                </form>
+                <div class="mt-2">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

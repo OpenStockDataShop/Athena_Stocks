@@ -12,13 +12,41 @@
     </head>
     <body>
         <div class="container-fluid">
-            {%include './navbar.html'%}
+            <navbar class="navbar navbar-dark bg-dark">
+                <!-- navbar example taken from Bootstrap CSS -->
+                <a class="navbar-brand" href="#">Athena</a>
+                <!-- navbar-brand example taken from Bootstrap CSS -->
+                <ul class="nav nav-pills nav-justified">
+                    <!-- nav-pills and nav-item example taken from Bootstrap CSS -->
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'stocks-about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/UserPage">UserPage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </u1>
+            </navbar>
         </div>
         <div class="container-fluid">
             <h1 class="text-center">Welcome {{ the_user }}</h1>
         </div>
         <div class="container-fluid">
-
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <div class="container-fluid row">
         <h3 class="text-center col">Your Profile</h3>
         <div id="carouselExampleControls" class="carousel slide text-center col-md-3" data-bs-ride="carousel">
