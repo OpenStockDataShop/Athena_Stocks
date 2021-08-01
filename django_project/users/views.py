@@ -30,7 +30,7 @@ def register(request):
             return redirect('/')
         else:
             print(form.errors)
-            return redirect('/register')
+            return render(request, 'registration/register.html', {'form': form})
     form = UserCreationForm()
     form.fields['username'].widget.attrs.update({
         'placeholder': 'Username'

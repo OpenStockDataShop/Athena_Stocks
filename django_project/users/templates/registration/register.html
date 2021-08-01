@@ -15,6 +15,13 @@
             .page {
                 background-color: lightgray;
             }
+            .hide {
+                display: none;
+            }
+            .passwordHelp:hover + .hide {
+                display: block;
+                color: lightgray;
+            }
         </style>
 
         <title>Registration</title>
@@ -63,36 +70,56 @@
                 <form method="post">
                     {% csrf_token %}
                     <h1 class="mb-5">Create an Account</h1>
-                    <form action="POST">
+                    <form action="POST" class="needs-validation" novalidate>
                         {% csrf_token %} 
                         <div class="form-group col d-flex justify-content-center">    
-                            {{form.username.error}}
                             {{form.username}}
+                            {{form.username.error}}
+                            <div class="invalid-tooltip">
+                                Please enter a valid username.
+                            </div>
                         </div>
-                        <div class="form-group col d-flex justify-content-center">
+                        <div class="form-group col d-flex justify-content-center passwordHelp">
                             {{form.password1}}
+                            {{form.password1.error}}
+                            <div class="invalid-tooltip">
+                                Please enter a valid password.
+                            </div>
+                        </div>
+                        <div class="hide">
+                            Password must include 8-20 characters, at least one special character and one uppercase letter, and no spaces.
                         </div>
                         <div class="form-group col d-flex justify-content-center">
                             {{form.password2}}
+                            {{form.password2.error}}
+                            <div class="invalid-tooltip">
+                                Passwords do not match.
+                            </div>
                         </div>
-                        <div class="col mb-4">
-                            <div class="col d-flex  justify-content-center mb-3">
-                                <a href="/accounts/login">Already have an account?</a>
-                            </div>
-                            <div class="col d-flex justify-content-center ">
-                                <div class="form-check">
-                                    <input type="checkbox" value="remember-me" checked />
-                                    <label class="form-check-label">Remember me</label>
-                                </div>
-                            </div>
+                        <div class="col mb-4 d-flex  justify-content-center mb-3">
+                            <a href="/accounts/login">Already have an account?</a>
                         </div>
                         <div class="col d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
                         </div>
-                        {{ form.errors }}
                     </form>
-                    {{ form.errors }}
                 </form>
+                <div class="mt-2">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </body>
