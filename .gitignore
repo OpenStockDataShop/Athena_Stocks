@@ -1,3 +1,6 @@
+# List of gitignore files are from: 
+# https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/
+
 node_modules/
 .vscode/
 __pycache__/
