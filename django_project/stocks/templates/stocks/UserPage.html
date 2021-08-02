@@ -12,35 +12,7 @@
     </head>
     <body>
         <div class="container-fluid">
-            <navbar class="navbar navbar-dark bg-dark">
-                <!-- navbar example taken from Bootstrap CSS -->
-                <a class="navbar-brand" href="#">Athena</a>
-                <!-- navbar-brand example taken from Bootstrap CSS -->
-                <ul class="nav nav-pills nav-justified">
-                    <!-- nav-pills and nav-item example taken from Bootstrap CSS -->
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/admin">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'stocks-home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'stocks-about' %}">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/accounts/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/UserPage">UserPage</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                </u1>
-            </navbar>
+            {%include './navbar.html'%}
         </div>
         <div class="container-fluid">
             <h1 class="text-center">Welcome {{ the_user }}</h1>
