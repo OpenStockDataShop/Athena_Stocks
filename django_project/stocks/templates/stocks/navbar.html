@@ -1,5 +1,5 @@
 <navbar class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Athena</a>
+    <a class="navbar-brand" href="{% url 'stocks-home' %}">Athena</a>
     <ul class="nav nav-pills nav-justified">
 
         <li class="nav-item">
@@ -11,6 +11,12 @@
         <li class="nav-item">
             <a class="nav-link" href="/analytics">Analytics</a>
         </li>
+
+        {% if user %}
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        {% else %}
         <li class="nav-item">
             <a class="nav-link" href="/accounts/login">Login</a>
         </li>
@@ -20,13 +26,10 @@
         <li class="nav-item">
             <a class="nav-link" href="/UserPage">UserPage</a>
         </li>
+        {% endif %}
 
-        <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-        </li> 
-
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" aria-current="page" href="/admin">Admin</a>
-        </li>
+        </li> -->
     </u1>
 </navbar>
