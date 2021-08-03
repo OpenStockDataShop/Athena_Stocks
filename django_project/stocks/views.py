@@ -9,16 +9,20 @@ from users import models as m1
 
 def home(request):
     context = {
+        'user': request.user.username,
         'fav_stocks': Fav_Stocks.objects.all()
     }
     return render(request, 'stocks/home.html', context)
 
 
 def about(request):
-    return render(request, 'stocks/about.html')
+    context = {
+        'user': request.user.username
+    }
+    print(context)
+    return render(request, 'stocks/about.html', context)
 
 # <!-- https://docs.djangoproject.com/en/3.2/topics/db/queries/ inspiration taken from this website for fetching data from db -->
-
 
 @login_required
 def userPage(request):
