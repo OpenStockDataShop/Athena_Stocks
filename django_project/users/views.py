@@ -8,7 +8,6 @@ from datetime import datetime
 
 # placeholder code based on https://stackoverflow.com/questions/13523286/how-to-add-placeholder-to-forms-of-django-registration
 
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -41,16 +40,20 @@ def register(request):
     form.fields['password2'].widget.attrs.update({
         'placeholder': 'Password Confirmation'
     })
-    return render(request, 'registration/register.html', {'form': form})
+
+    context = {
+        'user': request.user.username,
+        'form': form
+    }
+
+    return render(request, 'registration/register.html', context)
 
 # Create your views here.
 
-
 def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('/')
-    return render(request, 'registration/logout.html')
+    logout(request)
+    request.user = None
+    return render(request, 'stocks/home.html')
 
 
 def user_view(request):

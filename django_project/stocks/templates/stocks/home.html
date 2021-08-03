@@ -10,33 +10,8 @@
     </head>
     <body>
         <div class="container-fluid">
-            <!-- container fluid, navbar, and nav-item all taken from Bootstrap CSS -->
-            <navbar class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">Athena</a>
-                <ul class="nav nav-pills nav-justified">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/admin">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'stocks-home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'stocks-about' %}">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/accounts/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/UserPage">UserPage</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                </u1>
-            </navbar>
+        <!-- container fluid, navbar, and nav-item all taken from Bootstrap CSS -->
+          {% include './navbar.html' %}
         </div>
         <div class="container-fluid">
             <h1 class="p-3 mb-2 bg-primary text-white text-center">Welcome To Athena Stocks</h1>
