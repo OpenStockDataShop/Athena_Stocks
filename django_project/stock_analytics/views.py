@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Stock
 
-from .lstm import get_lstm_rec
+from .lstm import get_lstm_recommendation
+from .momentum import get_momentum_recommendation
 
 # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#queryset-api
 
@@ -19,39 +20,34 @@ def index(request):
             fav_list.append(fav.stocks)
 
         # query historical prices of the favorite stock
-        list_of_list = []
-        for fav in fav_list:
-            query_results = Stock.objects.filter(name=fav).order_by('date')
-            price_list = []
-            for s in query_results:
-                price_list.append(s.price)
-            list_of_list.append(price_list)
-        print()
+        # list_of_list = []
+        # for fav in fav_list:
+        #     query_results = Stock.objects.filter(name=fav).order_by('date')
+        #     price_list = []
+        #     for s in query_results:
+        #         price_list.append(s.price)
+        #     list_of_list.append(price_list)
 
 
-        # logic for moving average - momentum trading
-        avg_list = []
-        momentum_rec = []
-        for list in list_of_list:
-            avg = sum(list[:-1])/len(list)
-            avg_list.append(avg)
-            if list[-1] < avg:
-                momentum_rec.append('buy')
-            else:
-                momentum_rec.append('sell')
+        # logic for 20 moving average - momentum trading
+        momentum_recs = []
+        for stock in fav_list:
+            rec_tuple = get_momentum_recommendation(stock)
+            momentum_recs.append(rec_tuple)
     
 
         # logic for lstm 
-        rec = get_lstm_rec()
-        n = len(fav_list)
-        lstm_rec = [rec] * n
-        print(lstm_rec)
+        lstm_recs = []
+        for stock in fav_list:
+            rec = get_lstm_recommendation(stock)
+            lstm_recs.append(rec)
+        print(lstm_recs)
         
 
         context = {
             'user': request.user,
-            'momentum_rec': zip(fav_list, momentum_rec),
-            'lstm_rec': zip(fav_list, lstm_rec)
+            'momentum_rec': zip(fav_list, momentum_recs),
+            'lstm_rec': zip(fav_list, lstm_recs)
         }
 
         return render(request, 'stocks/trading_rec.html', context)
