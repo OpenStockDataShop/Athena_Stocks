@@ -8,6 +8,7 @@ from datetime import datetime
 
 # placeholder code based on https://stackoverflow.com/questions/13523286/how-to-add-placeholder-to-forms-of-django-registration
 
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -48,7 +49,6 @@ def register(request):
 
     return render(request, 'registration/register.html', context)
 
-# Create your views here.
 
 def logout_view(request):
     logout(request)
