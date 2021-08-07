@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
-    <form method="POST">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Log In</title>
+        <!-- Taken from https://github.com/twbs/bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body class="page">
+        <div class="container-fluid">
+            {% include 'stocks/navbar.html' %}
+        </div>
+        <form method="POST">
         <!-- https://stackoverflow.com/questions/52162823/how-to-make-form-submit-in-bootstrap-4 cited as inspiration for using POST method -->
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Log In</button>
     </form>
+    </body>
+    
 </html>
+</html>
+
