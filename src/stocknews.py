@@ -317,25 +317,27 @@ if __name__ == '__main__':
     dateRange = [getDayInWeekFromString('today',0),getDayInWeekFromString('today',6)]
     if dateRange[0] != dateRanges[-1][0] and dateRange[1] != dateRanges[-1][1]:
         dateRanges.append(dateRange)
+    
+    print(getDayInWeekFromString('2021-08-08',0))
 
     stocks = ['AAPL','TSLA','MSFT','INTC','AMZN','WMT']
     #stocks = ['AAPL']
-    for dateRange in dateRanges:
-        print("\n==========================DateRangeStart(%s)================================" % dateRange[0])
-        stockArgs = pd.DataFrame()
-        stockArgs['symbol'] = stocks
-        stockArgs['period'] = [dateRange] * len(stocks)
-        stockArgs['getHistory'] = getHistoricalDataSetWithPyGoogleNews
+    #for dateRange in dateRanges:
+    #    print("\n==========================DateRangeStart(%s)================================" % dateRange[0])
+    #    stockArgs = pd.DataFrame()
+    #    stockArgs['symbol'] = stocks
+    #    stockArgs['period'] = [dateRange] * len(stocks)
+    #    stockArgs['getHistory'] = getHistoricalDataSetWithPyGoogleNews
         
-        #for _ in Timerit(num=1,verbose=2):
-        #    for stock in stocks:
-        #        writeStockHistoryToCSV(stock,dateRange,getHistoricalDataSetWithPyGoogleNews)
+    #    #for _ in Timerit(num=1,verbose=2):
+    #    #    for stock in stocks:
+    #    #        writeStockHistoryToCSV(stock,dateRange,getHistoricalDataSetWithPyGoogleNews)
 
-        for _ in Timerit(num=1,verbose=2):
-            pool = ThreadPool(len(stocks))
-            results = pool.map(writeStockHistoryToCSVparallel,stockArgs.to_numpy().tolist())
-            pool.close()
-            pool.join()
+    #    for _ in Timerit(num=1,verbose=2):
+    #        pool = ThreadPool(len(stocks))
+    #        results = pool.map(writeStockHistoryToCSVparallel,stockArgs.to_numpy().tolist())
+    #        pool.close()
+    #        pool.join()
 
-        print("==========================DateRangeEnd(%s)================================" % dateRange[1])
+    #    print("==========================DateRangeEnd(%s)================================" % dateRange[1])
 
