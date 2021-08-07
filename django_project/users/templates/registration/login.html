@@ -5,20 +5,46 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <style> 
+            h1 { 
+                text-align: center;
+            }
+            .custom-box {
+                height: 80vh;
+            }
+            .page {
+                background-color: lightgray;
+            }
+        </style>
+
         <title>Log In</title>
         <!-- Taken from https://github.com/twbs/bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
-    <body>
+    <body class="page">
         <div class="container-fluid">
-            <!-- Inspiration from: https://www.notimedad.dev/customizing-django-builtin-login-form/ -->
-            <form method="POST" action="{% url 'login' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Login">
-            </form>
+            <!-- container fluid, navbar, and nav-item all taken from Bootstrap CSS -->
+            {% include 'stocks/navbar.html' %}
         </div>
-        
+
+        <!-- login box-->
+        <div class="col d-flex custom-box justify-content-center align-items-center">
+            <div class="user-section p-4 mb-2 bg-light">
+                <h1 class="mb-5">Log In</h1>
+                <!-- Inspiration from: https://www.notimedad.dev/customizing-django-builtin-login-form/ -->
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="col mb-4 d-flex  justify-content-center mb-3">
+                        <a href="/accounts/register">Don't have an account?</a>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Login">
+                    </div>
+                </form>
+            </div>
+        </div>
     </body>
 
 </html>

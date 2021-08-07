@@ -17,9 +17,11 @@ class cFav_Stocks(forms.ModelForm):
 class Custom_Login_Form(AuthenticationForm):
     def _init_(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update(
-            {'class': 'my-username-class'}
-        )
-        self.fields['password'].widget.attrs.update(
-            {'class': 'my-password-class'}
-        )
+        self.fields['username'].widget.attrs.update({
+            'class': 'my-username-class',
+            'placeholder': 'Username',
+        })
+        self.fields['password'].widget.attrs.update({
+            'class': 'my-password-class',
+            'placeholder': 'Password',
+        })
