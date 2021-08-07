@@ -5,23 +5,21 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         <title>Log In</title>
         <!-- Taken from https://github.com/twbs/bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
-    <body class="page">
+    <body>
         <div class="container-fluid">
-            {% include 'stocks/navbar.html' %}
+            <!-- Inspiration from: https://www.notimedad.dev/customizing-django-builtin-login-form/ -->
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Login">
+            </form>
         </div>
-        <form method="POST">
-        <!-- https://stackoverflow.com/questions/52162823/how-to-make-form-submit-in-bootstrap-4 cited as inspiration for using POST method -->
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
-    </form>
+        
     </body>
-    
-</html>
-</html>
 
+</html>
+</html>
