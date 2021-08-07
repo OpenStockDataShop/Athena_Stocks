@@ -1,5 +1,5 @@
 from stocks.models import Fav_Stocks
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import Stock
 
@@ -9,6 +9,8 @@ from .momentum import get_momentum_recommendation
 # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#queryset-api
 
 # Create your views here.
+
+
 def index(request):
 
     # if logged in, retrieve the user's favorite stocks list
@@ -28,21 +30,18 @@ def index(request):
         #         price_list.append(s.price)
         #     list_of_list.append(price_list)
 
-
         # logic for 20 moving average - momentum trading
         momentum_recs = []
         for stock in fav_list:
             rec_tuple = get_momentum_recommendation(stock)
             momentum_recs.append(rec_tuple)
-    
 
-        # logic for lstm 
+        # logic for lstm
         lstm_recs = []
         for stock in fav_list:
             rec = get_lstm_recommendation(stock)
             lstm_recs.append(rec)
         print(lstm_recs)
-        
 
         context = {
             'user': request.user,
@@ -51,8 +50,7 @@ def index(request):
         }
 
         return render(request, 'stocks/trading_rec.html', context)
-    
+
     else:
 
-        return HttpResponse('You are not logged in. Please login or register.')
-
+        return redirect('login/')
