@@ -20,6 +20,7 @@ requests = "^2.26.0"
 pygooglenews = "^0.1.2"
 timerit = "^0.3.0"
 tensorflow = "^2.5.0"
+sklearn = "^0.0"
 
 [tool.poetry.dev-dependencies]
 

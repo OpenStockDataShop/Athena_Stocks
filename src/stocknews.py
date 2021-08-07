@@ -34,19 +34,33 @@ def getDateFromString(dateString):
     return date
 
 from datetime import date
-def getDayInWeekFromString(dateString,day=None):
+def getDayInWeekFromString(dateString,day=None,shiftWeeks=0):
     d = getDateFromString(dateString)
     d = datetime.date.toordinal(d)
     if day is None:
         day = 0
+    try:
+        day = int(day)
+    except:
+        day = 0
+
     if day < 0:
         day = 0
     if day > 6:
         day = 6
 
+    if shiftWeeks is None:
+        shiftWeeks = 0
+    try:
+        shiftWeeks = int(shiftWeeks)
+    except:
+        shiftWeeks = 0
+
     if (d % 7) == 0:
         d = d - 7
-    d = d - (d % 7) + day
+    d = d - (d % 7) + day + (shiftWeeks * 7)
+
+
 
     return extractDateFromDatetime(datetime.date.fromordinal(d))
 
@@ -303,6 +317,137 @@ def writeStockHistoryToCSVparallel(args):
     df = writeStockHistoryToCSV(symbol,period,getHistory)
     return df
 
+def isNewDataNeeded(dateString,symbol,dataset = None):
+    if dataset is None:
+        csvpath = datadir + '/StocknewsDataset' + symbol + '.csv'
+        if os.path.exists(csvpath):
+            dataset = pd.read_csv(csvpath)
+        else:
+            return True
+    
+    date = getDateFromString(dateString)
+    extractedDateString = extractDateFromDatetime(date)
+    day = date.toordinal() % 7
+    week = int(date.toordinal() / 7)
+
+    checkDates = []
+    if day == 0:
+        shiftWeeks = 1
+    else:
+        shiftWeeks = 0
+    for i in range(7):
+        checkDates.append(getDayInWeekFromString(extractedDateString,i,shiftWeeks))
+   
+    mostRecentWeekData = None
+
+    for checkDate in checkDates:
+        if checkDate in dataset['Date'].tolist():
+            mostRecentWeekData = checkDate
+            
+    dateDataExits = (mostRecentWeekData is not None) and ( (getDateFromString(mostRecentWeekData).toordinal() % 7 >= day) or day < 1 or day > 5)
+    if not dateDataExits and day == 6:
+        checkDates = []
+        for i in range(7):
+            checkDates.append(getDayInWeekFromString(extractedDateString,i,shiftWeeks+1))
+        for checkDate in checkDates:
+            if checkDate in dataset['Date'].tolist():
+                mostRecentWeekData = checkDate
+        dateDataExits = (mostRecentWeekData is not None) and ( (getDateFromString(mostRecentWeekData).toordinal() % 7 >= day) or day < 1 or day > 5)
+
+
+    return (not dateDataExits,day)
+
+def getDataset(symbol):
+    csvpath = datadir + '/StocknewsDataset' + symbol + '.csv'
+    if os.path.exists(csvpath):
+        dataset = pd.read_csv(csvpath)
+        return dataset
+
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
+
+# Code reuse with minor modifications ref: https://machinelearningmastery.com/multivariate-time-series-forecasting-lstms-keras/
+
+def generateSequenceForLSTM(dataset,inputWindow=1,outputWindow=1,predictColumns=['Close'],dropColumns=['Symbol','Date'],sortColumn='Date',dropnan=True):
+    columns = dataset.columns
+    if sortColumn in columns:
+        dataset = dataset.sort_values(by=sortColumn,ascending=True)
+    for dropColumn in dropColumns:
+        if dropColumn in columns:
+            dataset = dataset.drop([dropColumn], axis=1)
+    columns = dataset.columns
+
+    cols, names = list(), list()
+
+    # input sequence (t -n,....,t-1)
+    for i in range(inputWindow,0,-1):
+        cols.append(dataset.shift(i))
+        names += [('%s(t-%d)' % (prefix,i)) for prefix in list(columns)]
+
+    if predictColumns is None:
+        predictColumns = columns
+    
+    validPredictColumns = list()
+    for predictColumn in predictColumns:
+        if predictColumn in columns:
+            validPredictColumns.append(predictColumn)
+    
+    if len(validPredictColumns) == 0:
+        validPredictColumns = columns
+    
+    # prediction sequence (t,t+1....,t+n)
+    for i in range(0,outputWindow):
+        cols.append(dataset[validPredictColumns].shift(i))
+        if i == 0:
+            names += [('%s(t)' % (prefix)) for prefix in list(validPredictColumns)]
+        else:
+            names += [('%s(t+%d)' % (prefix,i)) for prefix in list(validPredictColumns)]
+
+    datasetSequence = pd.concat(cols,axis=1)
+    datasetSequence.columns = names
+
+	# drop rows with NaN values
+    if dropnan:
+        datasetSequence = datasetSequence.dropna()
+    return datasetSequence
+
+def prepareDataForLSTM(symbol,inputWindow=1,outputWindow=1,test_split = 0.2,predictColumns=['Close'],dropColumns=['Symbol','Date'],sortColumn='Date',dropnan=True):
+    dataset = getDataset(symbol)
+    datasetSequence = generateSequenceForLSTM(dataset,inputWindow,outputWindow,predictColumns,dropColumns,sortColumn,dropnan)
+    testIndex = int(datasetSequence.shape[0]*(1.0 - test_split))
+
+    scaler = MinMaxScaler(feature_range=(0.0,1.0))
+    scaledDatasetSequence = pd.DataFrame(scaler.fit_transform(datasetSequence),columns = datasetSequence.columns)
+    print(datasetSequence.shape)
+    
+    values = scaledDatasetSequence.values
+
+    train = pd.DataFrame(values[:testIndex,:],columns = datasetSequence.columns)
+    test = pd.DataFrame(values[testIndex:,:],columns = datasetSequence.columns)
+
+    inputColumnsRegEx = re.compile(".*(t-.*)")
+    inputColumns = [column for column in list(datasetSequence.columns) if re.match(inputColumnsRegEx,column)]
+    predictColumns = [column for column in list(datasetSequence.columns) if not re.match(inputColumnsRegEx,column)]
+
+
+    train_X,train_Y = train[inputColumns],train[predictColumns]
+    test_X,test_Y = test[inputColumns],test[predictColumns]
+
+    train_X = train_X.to_numpy().reshape((train_X.shape[0],inputWindow,int(train_X.shape[1] / inputWindow)))
+    test_X = test_X.to_numpy().reshape((test_X.shape[0],inputWindow,int(test_X.shape[1] / inputWindow)))
+
+    return (train_X,train_Y.to_numpy(),test_X,test_Y.to_numpy(),scaler)
+
+
+from sklearn.metrics import mean_squared_error
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras.layers import Dropout
+
+from matplotlib import pyplot
+from math import sqrt
+
 if __name__ == '__main__':
     #getFullArticleTextFromURL('https://www.businessinsider.com/apple-iphone-12-pro-review')
     #getFullArticleTextFromURL('https://www.businessinsider.com/kamala-harris-staffers-toxic-office-culture-dysfunction-2021-7')
@@ -318,7 +463,57 @@ if __name__ == '__main__':
     if dateRange[0] != dateRanges[-1][0] and dateRange[1] != dateRanges[-1][1]:
         dateRanges.append(dateRange)
     
-    print(getDayInWeekFromString('2021-08-08',0))
+    train_X,train_Y,test_X,test_Y, scaler = prepareDataForLSTM('AAPL',1,1,test_split = 0.2,predictColumns=['Open','High','Low','Close'])
+
+    outputDimension = 1 if len(train_Y.shape) == 1 else train_Y.shape[1]
+
+    # design network
+    model = Sequential()
+    model.add(LSTM(units = 100, return_sequences = True, input_shape=(train_X.shape[1], train_X.shape[2])))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(units = 100, return_sequences = True))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(units = 100, return_sequences = True))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(units = 100))
+    model.add(Dropout(0.2))
+
+    model.add(Dense(outputDimension))
+    model.compile(loss='mse', optimizer='adam')
+
+    # fit network
+    history = model.fit(train_X, train_Y, epochs=100, batch_size=72, validation_data=(test_X, test_Y), verbose=2, shuffle=False)
+    # plot history
+    pyplot.plot(history.history['loss'], label='train')
+    pyplot.plot(history.history['val_loss'], label='test')
+    pyplot.legend()
+    pyplot.show()
+
+    model.summary()
+
+    # make a prediction
+    yhat = model.predict(test_X)
+    test_X = test_X.reshape((test_X.shape[0], test_X.shape[1] * test_X.shape[2]))
+    # invert scaling for forecast
+    inv_yhat = np.concatenate((yhat, test_X), axis=1)
+    inv_yhat = scaler.inverse_transform(inv_yhat)
+    inv_yhat = inv_yhat[:,0]
+    # invert scaling for actual
+    if len(test_Y.shape) == 1:
+        test_Y = test_Y.reshape((test_Y.shape[0], 1))
+    inv_y = np.concatenate((test_Y, test_X), axis=1)
+    inv_y = scaler.inverse_transform(inv_y)
+    inv_y = inv_y[:,0]
+    # calculate RMSE
+    rmse = sqrt(mean_squared_error(inv_y, inv_yhat))
+    print('Test RMSE: %.3f' % rmse)
+    pyplot.plot(inv_yhat, label='predicted')
+    pyplot.plot(inv_y, label='actual')
+    pyplot.legend()
+    pyplot.show()
 
     stocks = ['AAPL','TSLA','MSFT','INTC','AMZN','WMT']
     #stocks = ['AAPL']
