@@ -21,13 +21,11 @@ def about(request):
     context = {
         'user': request.user.username
     }
-    print(context)
     return render(request, 'stocks/about.html', context)
 
 # <!-- https://docs.djangoproject.com/en/3.2/topics/db/queries/ inspiration taken from this website for fetching data from db -->
 
 def get_latest_price(stock):
-
 
     # if stock is in database, get it from database
     target_stock = Stock.objects.filter(name=stock)
@@ -59,13 +57,15 @@ def userPage(request):
     if(request.user.is_authenticated):
         the_user = request.user.username
         stock_list = []
+        comment_list = []
         temp = []
         temp = (Fav_Stocks.objects.all().values())
         for i in temp:
-            print(i['user'])
             if(the_user == i['user']):
                 stock_list.append(i['stocks'].upper())
-        print(stock_list)
+
+        # # only for testing and when I input wrong ticker
+        # stock_prices = [120] * len(stock_list)
 
         # giving me 500 status code.. maybe hitting yahoo finance too many time?
         stock_prices = []
@@ -73,11 +73,27 @@ def userPage(request):
             price = get_latest_price(stock)
             stock_prices.append(round(price,2))
 
+        # comment_list = []
+        # date_created_list = []
+        # for stock in stock_list:
+        #         query_result = Fav_Stocks.objects.filter(stocks=stock).values()
+        #         for q in query_result:
+        #             if not q['comment']:
+        #                 print("no comment")
+        #                 comment_list.append("no comment")
+        #             else:
+        #                 comment_list.append(q['comment'])
+        #             date_created_list.append(q['date_made'])
+
+        print(stock_list)
+        print(stock_prices)
+        # print(comment_list)
+        # print(date_created_list)
+
         context = {
             'the_user': the_user,
             'users_stocks': zip(stock_list, stock_prices),
         }
-        print("context = ", context)
     return render(request, 'stocks/UserPage.html', context)
 
 

@@ -25,7 +25,7 @@
             <div class="content-container">
                 <h1>Your Favorite Stocks
                     <span>
-                        <a class="btn my-button" type="button" href="/enter_data">
+                        <a class="btn my-button" type="button" href="/enter_data/{{the_user}}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>  ADD FAVORITE STOCK
@@ -40,7 +40,7 @@
                           <h2 class="card-title">{{ user_stock }}</h2>
                           <h4 class="card-text">${{price}}</h4>
                             <a href="https://finance.yahoo.com/quote/{{user_stock}}?p={{user_stock}}" class="btn btn-primary">Learn More</a>
-                            <a href="/delete_data/{{user_stock}}" class="btn btn-primary">Delete</a>
+                            <a href="/delete_data/{{the_user}}/{{user_stock}}" class="btn btn-primary">Delete</a>
                           </div>
                     </div>
                     {% endfor %}
