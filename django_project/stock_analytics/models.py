@@ -8,3 +8,5 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.name
+
+# create stock_ticker model here

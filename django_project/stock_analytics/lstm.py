@@ -18,6 +18,7 @@ def get_lstm_recommendation(stock):
         input: a single ticker
         output: predicted price for the stock
     """
+    print(stock)
 
     # import historical prices from yahoo finance 
     period1 = int(time.mktime((date.today()-timedelta(days=365)).timetuple()))
@@ -36,7 +37,7 @@ def get_lstm_recommendation(stock):
 
     print(all_data)
 
-    test_data_size = 180
+    test_data_size = 20
 
     train_data = all_data[:-test_data_size]
     test_data = all_data[-test_data_size:]
@@ -118,4 +119,14 @@ def get_lstm_recommendation(stock):
             test_inputs.append(model(seq).item())
 
     actual_predictions = scaler.inverse_transform(np.array(test_inputs[train_window:] ).reshape(-1, 1))
-    return actual_predictions[0][0]
+
+    pred = actual_predictions[0][0]
+    rec = ''
+    if all_data[-1] < pred:
+        rec = 'Buy'
+    elif all_data[-1] > pred:
+        rec = 'Sell'
+    else:
+        rec = 'Hold'
+
+    return (round(pred, 2), rec)

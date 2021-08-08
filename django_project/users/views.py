@@ -56,21 +56,32 @@ def logout_view(request):
     return render(request, 'stocks/home.html')
 
 
-def user_view(request):
+def user_view(request, the_user):
     if request.method == 'POST':
-        if(request.POST.get('send') == "delete"):
-            stock = request.POST.get('stock')
-            m.Fav_Stocks.objects.get(stocks=stock).delete()
-            return redirect('/')
 
         username = request.POST.get('username')
-        stock = request.POST.get('stock')
+        stock = request.POST.get('stock').lower()
         author = request.user
         date_made = datetime.now()
         if(username != "" and stock != ""):
             z = m.Fav_Stocks(user=username, stocks=stock,
                              date_made=date_made, author=author)
             z.save()
-            return redirect('/')
+            return redirect('/UserPage')
+    
     form = cFav_Stocks
-    return render(request, 'registration/the_stocks.html', {'form': form})
+
+    context = {
+        'form': form,
+        'the_user': the_user, 
+    }
+    
+    return render(request, 'registration/the_stocks.html', context)
+
+def delete(request, the_user, stock):
+    stock = stock.lower()
+    query_result = m.Fav_Stocks.objects.filter(user=the_user).get(stocks=stock)
+    query_result.delete()
+    
+    return redirect('/UserPage')
+

@@ -1,12 +1,7 @@
 # import libraries 
-import torch
-import torch.nn as nn
-import numpy as np
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 import time
 from datetime import date, timedelta
-import pandas as pd
 
 def get_momentum_recommendation(stock):
     """
@@ -35,4 +30,4 @@ def get_momentum_recommendation(stock):
     else:
         rec = 'Hold'
 
-    return (twenty_day_average, rec)
+    return (round(twenty_day_average,2), rec)
