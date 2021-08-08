@@ -8,6 +8,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="../../static/stocks/home.css">
     </head>
     <body>
         <div class="container-fluid">
@@ -15,49 +16,50 @@
             {% include './navbar.html' %}
         </div>
         <div id="loading">
+
         <div class="container-fluid">
             <h1 class="p-3 mb-2 bg-primary text-white text-center">About Athena Stocks</h1>
         </div>
-        <div class="container-fluid">
-            <!-- container fluid, row, and col all taken from Bootstrap CSS -->
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="text-start">
-                        <h1>Who is Athena?</h1>
-                        <p>Athena is the greek goddess of Wisdom. Born of Zeus’s thoughts she is knowledge incarnate. Knowledge is power, especially in this day and age. 
-                            Our mission is to provide you with the knowledge you need to better invest in stocks. 
-                            A caution, just like the tale of Icarus, we will provide you with wings. However we are not responsible if you fly too close to the sun.</p>
+        <div>
+            <div class="container-fluid">
+                <!-- container fluid, row, and col all taken from Bootstrap CSS -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="text-start">
+                            <h1>Who is Athena?</h1>
+                            <p>Athena is the greek goddess of Wisdom. Born of Zeus’s thoughts she is knowledge incarnate. Knowledge is power, especially in this day and age. 
+                                Our mission is to provide you with the knowledge you need to better invest in stocks. 
+                                A caution, just like the tale of Icarus, we will provide you with wings. However we are not responsible if you fly too close to the sun.</p>
+                        </div>
+                        <img src="https://cdn.pixabay.com/photo/2017/04/25/00/21/goodness-2258249_960_720.jpg">
                     </div>
-                    <img src="https://cdn.pixabay.com/photo/2017/04/25/00/21/goodness-2258249_960_720.jpg">
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-start" margin-left: 12rem>
-                        <h1 style="margin-left:1rem;">Our Mission</h1>
-                        <h3 style="margin-left:1rem;">Educate</h3>
-                        <p style="margin-left:1rem;">we wish to educate people about the various companies that out there not only to help people understand
-                            the economy and stock market, but to have fun while doing it. We wish to become a one stop shop for all things stocks
-                        </p>
-                        <h3 style="margin-left:1rem;">Meet the team</h3>
-                        <p style="margin-left:1rem;">
-                            We are a team of computer science students from PSU
-                        </p>
-                        <h3 style="margin-left:1rem;">Contact Us</h3>
-                        <p style="margin-left:1rem;">
-                            contact X at: blah@gmail.com
-                        </p style="margin-left:1rem;">
-                        <h3 style="margin-left:1rem;">Rules</h3>
-                        <p style="margin-left:1rem;">
-                            We only have two rules on this site.
-                            Use Common Sense
-                            Be Kind
-                        </p>
-                        <h3 style="margin-left:1rem;">Donate</h3>
-                        <p style="margin-left:1rem;">
-                            Since this is an open source project we are giving away all this code gratis (free)
-                            Any Donation helps to keep this project moving forward. Please remove add blocker before visiting this site.
-                        </p>
-                        <a class="btn btn-primary" style="margin-left:1rem;" href="/Donate" role="button">Donate</a>
-                    </div>
+            <div class="col-sm-6">
+                <div class="text-start" margin-left: 12rem>
+                    <h1 style="margin-left:1rem;">Our Mission</h1>
+                    <h3 style="margin-left:1rem;">Educate</h3>
+                    <p style="margin-left:1rem;">we wish to educate people about the various companies that out there not only to help people understand
+                        the economy and stock market, but to have fun while doing it. We wish to become a one stop shop for all things stocks
+                    </p>
+                    <h3 style="margin-left:1rem;">Meet the team</h3>
+                    <p style="margin-left:1rem;">
+                        We are a team of computer science students from PSU
+                    </p>
+                    <h3 style="margin-left:1rem;">Contact Us</h3>
+                    <p style="margin-left:1rem;">
+                        contact X at: blah@gmail.com
+                    </p style="margin-left:1rem;">
+                    <h3 style="margin-left:1rem;">Rules</h3>
+                    <p style="margin-left:1rem;">
+                        We only have two rules on this site.
+                        Use Common Sense
+                        Be Kind
+                    </p>
+                    <h3 style="margin-left:1rem;">Donate</h3>
+                    <p style="margin-left:1rem;">
+                        Since this is an open source project we are giving away all this code gratis (free)
+                        Any Donation helps to keep this project moving forward. Please remove add blocker before visiting this site.
+                    </p>
+                    <a class="btn btn-primary" style="margin-left:1rem;" href="/Donate" role="button">Donate</a>
                 </div>
             </div>
         </div>
@@ -66,7 +68,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script>
             function loading() {
-              document.getElementById("loading").innerHTML = "<h1>LOADING....</h1>"
+              document.getElementById("loading").innerHTML = "<div class='loading-text'><h1>LOADING....</h1><img src='https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'></div>"
             }
           </script>
     </body>
