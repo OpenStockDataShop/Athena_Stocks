@@ -61,7 +61,7 @@ def user_view(request):
         if(request.POST.get('send') == "delete"):
             stock = request.POST.get('stock')
             m.Fav_Stocks.objects.get(stocks=stock).delete()
-            return redirect('/')
+            return redirect('/UserPage')
 
         username = request.POST.get('username')
         stock = request.POST.get('stock')
@@ -71,6 +71,13 @@ def user_view(request):
             z = m.Fav_Stocks(user=username, stocks=stock,
                              date_made=date_made, author=author)
             z.save()
-            return redirect('/')
+            return redirect('/UserPage')
     form = cFav_Stocks
     return render(request, 'registration/the_stocks.html', {'form': form})
+
+def delete(request, stock):
+    stock = stock.lower()
+    m.Fav_Stocks.objects.get(stocks=stock).delete()
+    
+    return redirect('/UserPage')
+

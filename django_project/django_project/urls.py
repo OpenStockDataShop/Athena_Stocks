@@ -28,6 +28,7 @@ urlpatterns = [
         authentication_form=Custom_Login_Form),
         name='login'),
     path('enter_data/', user_views.user_view, name='the_user_view'),
+    path('delete_data/<slug:stock>', user_views.delete, name='delete_stock'),
     path('logout/', user_views.logout_view, name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('analytics/', include('stock_analytics.urls'), name='analytics'),

@@ -2,6 +2,11 @@ a {
     text-decoration: none;
 }
 
+svg {
+    height: 5vh;
+    width: 5vh;
+}
+
 .loading-text {
     /* text-align: center; */
     min-height: 100vh;
@@ -42,7 +47,12 @@ img {
 .card {
     max-width: 100%;
     margin: 3px;
-    padding: 2px;
+    padding: 5px;
+}
+
+.my-button {
+    padding: 20px;
+    margin: 20px;
 }
 
 .content-container {
