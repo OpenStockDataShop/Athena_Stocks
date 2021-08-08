@@ -129,4 +129,4 @@ def get_lstm_recommendation(stock):
     else:
         rec = 'Hold'
 
-    return (pred, rec)
+    return (round(pred, 2), rec)
