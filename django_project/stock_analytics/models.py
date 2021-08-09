@@ -4,15 +4,6 @@ from django.db import models
 class Stock(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateField()
-    price = models.FloatField()
-
-    def __str__(self):
-        return self.name
-
-# create stock_ticker model here
-class StockNews(models.Model):
-    name = models.CharField(max_length=255)
-    date = models.DateField()
     open = models.FloatField()
     high = models.FloatField()
     low = models.FloatField()
@@ -26,6 +17,9 @@ class StockNews(models.Model):
 
     def __str__(self):
         return self.name
+
+# create stock_ticker model here
+
 
 
 
