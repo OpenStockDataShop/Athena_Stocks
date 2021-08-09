@@ -34,29 +34,29 @@ def index(request):
         #     list_of_list.append(price_list)
 
 
-        # # logic for 20 moving average - momentum trading
-        # momentum_prices = []
-        # momentum_recs = []
-        # for stock in fav_list:
-        #     rec_tuple = get_momentum_recommendation(stock)
-        #     print(rec_tuple)
-        #     momentum_prices.append(rec_tuple[0])
-        #     momentum_recs.append(rec_tuple[1])
+        # logic for 20 moving average - momentum trading
+        momentum_prices = []
+        momentum_recs = []
+        for stock in fav_list:
+            rec_tuple = get_momentum_recommendation(stock)
+            print(rec_tuple)
+            momentum_prices.append(rec_tuple[0])
+            momentum_recs.append(rec_tuple[1])
 
-        # # logic for lstm
-        # lstm_prices = []
-        # lstm_recs = []
-        # for stock in fav_list:
-        #     rec = get_lstm_recommendation(stock)
-        #     lstm_prices.append(rec[0])
-        #     lstm_recs.append(rec[1])
+        # logic for lstm
+        lstm_prices = []
+        lstm_recs = []
+        for stock in fav_list:
+            rec = get_lstm_recommendation(stock)
+            lstm_prices.append(rec[0])
+            lstm_recs.append(rec[1])
 
 
-        # only for testing - faster testing
-        momentum_prices = [120] * len(fav_list)
-        momentum_recs = [ 'Sell'] * len(fav_list)
-        lstm_prices = [120] * len(fav_list)
-        lstm_recs = ['Buy'] * len(fav_list)
+        # # only for testing - faster testing
+        # momentum_prices = [120] * len(fav_list)
+        # momentum_recs = [ 'Sell'] * len(fav_list)
+        # lstm_prices = [120] * len(fav_list)
+        # lstm_recs = ['Buy'] * len(fav_list)
 
         # sentiment of the latest news on the stock
         sentiment_scores = []
