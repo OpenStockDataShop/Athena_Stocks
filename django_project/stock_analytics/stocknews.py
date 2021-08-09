@@ -23,7 +23,6 @@ datadir = projdir.replace('\\', '/') + '/data'
 if not os.path.isdir(datadir):
     os.mkdir(datadir)
 
-# inspired from ref: https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime
 import re
 import dateparser
 def getDateFromString(dateString):
@@ -64,6 +63,8 @@ def getDayInWeekFromString(dateString,day=None,shiftWeeks=0):
 
     return extractDateFromDatetime(datetime.date.fromordinal(d))
 
+
+# inspired from ref: https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime
 def getDateFromPeriod(period):
     periodSplit = re.findall('(\d+|[A-Za-z]+)',period)
     for i in range(len(periodSplit)):
@@ -148,7 +149,6 @@ def writeStockHistoryToCSV(symbol,period=None,getHistory=None):
 #inspired from ref: https://stackoverflow.com/questions/45545110/make-pandas-dataframe-apply-use-all-cores
 import yfinance as yf
 from multiprocessing.dummy import Pool as ThreadPool
-
 def getHistoricalDataSetWithPyGoogleNews(symbol,period=None):
     #print('symbol = %s period = %s\n' %(symbol,period))
     endTime = datetime.datetime.now()
@@ -274,7 +274,7 @@ def getArticlesOnDateParallel(args):
         return getArticlesOnDate(dateString,symbol)
 
 def getSentimentScoresOnDate(dateString,symbol,maxArticles=10):
-    stockNews = getArticlesOnDate(symbol,dateString,maxArticles)
+    stockNews = pd.DataFrame(getArticlesOnDate(dateString,symbol,maxArticles),columns=['ActualDate','link'])
     stockNews['Summary'] = stockNews['link'].apply(getArticleSummaryFromURL)
     stockNews = stockNews[stockNews['Summary'] != "ERROR"]
     columns = ['neg','neu','pos','compound']
@@ -418,7 +418,6 @@ def prepareDataForLSTM(symbol,inputWindow=1,outputWindow=1,test_split = 0.2,pred
 
     scaler = MinMaxScaler(feature_range=(0.0,1.0))
     scaledDatasetSequence = pd.DataFrame(scaler.fit_transform(datasetSequence),columns = datasetSequence.columns)
-    print(datasetSequence.shape)
     
     values = scaledDatasetSequence.values
 
@@ -447,6 +446,126 @@ from tensorflow.keras.layers import Dropout
 
 from matplotlib import pyplot
 from math import sqrt
+class StockNewsLSTM:
+    def __init__(self,symbol,units=50,dropout=0.2,depth=1,inputWindow=1,outputWindow=1,testSplit=0.2,predictColumns=['Close']):
+        self.__symbol = symbol
+        self.__units = units
+        self.__dropout = dropout
+        self.__depth = depth
+        self.__inputWindow = inputWindow
+        self.__outputWindow = outputWindow
+        self.__testSplit = testSplit
+        self.__predictColumns = predictColumns
+        self.prepareDataForLSTM()
+        self.buildModel()
+        self.fit()
+
+    def prepareDataForLSTM(self):
+        trainX,trainY,testX,testY, scaler = prepareDataForLSTM(self.symbol,self.inputWindow,self.outputWindow,self.testSplit,self.predictColumns)
+        self.__trainX = trainX
+        self.__trainY = trainY
+        self.__testX = testX
+        self.__testY = testY
+        self.__scaler = scaler 
+        self.__inputShape = (trainX.shape[1],trainX.shape[2])
+        self.__outputShape = 1 if len(trainY.shape) == 1 else trainY.shape[1]
+    
+    def buildModel(self):
+        model = Sequential()
+        for i in range(self.depth):
+            if i == self.depth - 1:
+                return_sequences = False
+            else:
+                return_sequences = True
+            
+            if i == 0:
+                model.add(LSTM(units = self.units, return_sequences = return_sequences, input_shape = self.inputShape))
+            else:
+                model.add(LSTM(units = self.units, return_sequences = return_sequences))
+            
+            model.add(Dropout(0.2))
+        model.add(Dense(self.outputShape))
+        model.compile(loss='mse', optimizer='adam')
+
+        self.__model = model
+    
+    def fit(self):
+        self.__history = self.__model.fit(self.trainX, self.trainY, epochs=100, batch_size=72, validation_data=(self.testX, self.testY), verbose=2, shuffle=False)
+
+    def predict(self,inputs):
+        ypred = self.__model.predict(inputs)
+        outputs = inputs.reshape((inputs.shape[0],inputs.shape[1]*inputs.shape[2]))
+        inv_ypred = np.concatenate((ypred, outputs), axis=1)
+        inv_ypred = self.scaler.inverse_transform(inv_ypred)
+
+        return inv_ypred[:,0:self.outputShape]
+
+    @property
+    def history(self):
+        return self.__history
+
+    @property
+    def inputShape(self):
+        return self.__inputShape
+
+    @property
+    def outputShape(self):
+        return self.__outputShape
+
+    @property
+    def trainX(self):
+        return self.__trainX
+
+    @property
+    def trainY(self):
+        return self.__trainY
+
+    @property
+    def testX(self):
+        return self.__testX
+
+    @property
+    def testY(self):
+        return self.__testY
+
+    @property
+    def scaler(self):
+        return self.__scaler
+
+    @property
+    def symbol(self):
+        return self.__symbol
+
+    @property
+    def units(self):
+        return self.__units
+
+    @property
+    def dropout(self):
+        return self.__dropout
+
+    @property
+    def depth(self):
+        return self.__depth
+
+    @property
+    def inputWindow(self):
+        return self.__inputWindow
+
+    @property
+    def outputWindow(self):
+        return self.__outputWindow
+    
+    @property
+    def testSplit(self):
+        return self.__testSplit
+
+    @property
+    def predictColumns(self):
+        return self.__predictColumns
+
+
+
 
 if __name__ == '__main__':
     #getFullArticleTextFromURL('https://www.businessinsider.com/apple-iphone-12-pro-review')
@@ -463,50 +582,28 @@ if __name__ == '__main__':
     if dateRange[0] != dateRanges[-1][0] and dateRange[1] != dateRanges[-1][1]:
         dateRanges.append(dateRange)
     
-    train_X,train_Y,test_X,test_Y, scaler = prepareDataForLSTM('AAPL',1,1,test_split = 0.2,predictColumns=['Open','High','Low','Close'])
-
-    outputDimension = 1 if len(train_Y.shape) == 1 else train_Y.shape[1]
-
-    # design network
-    model = Sequential()
-    model.add(LSTM(units = 100, return_sequences = True, input_shape=(train_X.shape[1], train_X.shape[2])))
-    model.add(Dropout(0.2))
-
-    model.add(LSTM(units = 100, return_sequences = True))
-    model.add(Dropout(0.2))
-
-    model.add(LSTM(units = 100, return_sequences = True))
-    model.add(Dropout(0.2))
-
-    model.add(LSTM(units = 100))
-    model.add(Dropout(0.2))
-
-    model.add(Dense(outputDimension))
-    model.compile(loss='mse', optimizer='adam')
-
-    # fit network
-    history = model.fit(train_X, train_Y, epochs=100, batch_size=72, validation_data=(test_X, test_Y), verbose=2, shuffle=False)
+    model = StockNewsLSTM('AAPL',depth=4)
+    history = model.history
     # plot history
     pyplot.plot(history.history['loss'], label='train')
     pyplot.plot(history.history['val_loss'], label='test')
     pyplot.legend()
     pyplot.show()
 
-    model.summary()
-
     # make a prediction
-    yhat = model.predict(test_X)
-    test_X = test_X.reshape((test_X.shape[0], test_X.shape[1] * test_X.shape[2]))
-    # invert scaling for forecast
-    inv_yhat = np.concatenate((yhat, test_X), axis=1)
-    inv_yhat = scaler.inverse_transform(inv_yhat)
-    inv_yhat = inv_yhat[:,0]
+    inv_yhat = model.predict(model.testX)
+
     # invert scaling for actual
+    test_Y = model.testY
+    test_X = model.testX
+    test_X = test_X.reshape((test_X.shape[0], test_X.shape[1] * test_X.shape[2]))
+    scaler = model.scaler
     if len(test_Y.shape) == 1:
         test_Y = test_Y.reshape((test_Y.shape[0], 1))
     inv_y = np.concatenate((test_Y, test_X), axis=1)
     inv_y = scaler.inverse_transform(inv_y)
-    inv_y = inv_y[:,0]
+    inv_y = inv_y[:,0:model.outputShape]
+
     # calculate RMSE
     rmse = sqrt(mean_squared_error(inv_y, inv_yhat))
     print('Test RMSE: %.3f' % rmse)
@@ -515,6 +612,7 @@ if __name__ == '__main__':
     pyplot.legend()
     pyplot.show()
 
+    #print(getSentimentScoresOnDate('2021-08-05','AAPL'))
     stocks = ['AAPL','TSLA','MSFT','INTC','AMZN','WMT']
     #stocks = ['AAPL']
     #for dateRange in dateRanges:
