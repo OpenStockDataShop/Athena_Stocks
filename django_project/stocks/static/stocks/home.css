@@ -7,6 +7,14 @@ svg {
     width: 5vh;
 }
 
+#happy-emoji {
+    fill: green;
+}
+
+#sad-emoji {
+    fill: red;
+}
+
 .loading-text {
     /* text-align: center; */
     min-height: 100vh;
@@ -58,4 +66,8 @@ img {
 .content-container {
     display: flex;
     flex-direction: column;
+}
+
+span {
+    white-space: pre;
 }

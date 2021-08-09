@@ -26,16 +26,16 @@ def get_lstm_recommendation(stock):
     interval = '1d' # 1wk, 1m
     query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
     df = pd.read_csv(query) # use yahoo finance historical prices as API
-    print(df.head(5))
+    # print(df.head(5))
 
     # select input features
     data_length = len(df)
-    print(data_length)
+    # print(data_length)
     all_data = df['Close'].values.astype(float)
 
         # process the data inside the file
 
-    print(all_data)
+    # print(all_data)
 
     test_data_size = 20
 
@@ -60,7 +60,7 @@ def get_lstm_recommendation(stock):
 
     train_inout_seq = create_inout_sequences(train_data_normalized, train_window)
 
-    print(train_inout_seq[:5])
+    # print(train_inout_seq[:5])
 
     class LSTM(nn.Module):
         def __init__(self, input_size=1, hidden_layer_size=100, output_size=1):
