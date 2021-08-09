@@ -5,7 +5,7 @@ from .models import Stock
 
 from .lstm import get_lstm_recommendation
 from .momentum import get_momentum_recommendation
-from .stocknews import getFullArticleTextFromURL, getSentimentFromText
+from .sentiment import getFullArticleTextFromURL, getSentimentFromText
 
 
 
