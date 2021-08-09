@@ -35,11 +35,13 @@
 
                 <div class="favorite-section">
                     <!-- icons are from https://heroicons.com/ -->
-                    {% for user_stock, price in users_stocks %}
+                    {% for user_stock, latest, second, change in users_stocks %}
                       <div class="card">
                         <div class="card-body">
                           <h2 class="card-title">{{ user_stock }}</h2>
-                          <h4 class="card-text">${{price}}</h4>
+                          <h4 class="card-text">${{ latest }}</h4>
+                          <h4 class="card-text">${{ second }}</h4>
+                          <h4 class="card-text">{{ change }}%</h4>
                             <a href="https://finance.yahoo.com/quote/{{user_stock}}?p={{user_stock}}" class="btn btn-primary">Learn More</a>
                             <a href="/delete_data/{{the_user}}/{{user_stock}}" class="btn btn-primary">Delete</a>
                           </div>

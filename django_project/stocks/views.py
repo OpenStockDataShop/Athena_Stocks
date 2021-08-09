@@ -25,32 +25,71 @@ def about(request):
 
 # <!-- https://docs.djangoproject.com/en/3.2/topics/db/queries/ inspiration taken from this website for fetching data from db -->
 
-def get_latest_price(stock):
+
+# grabbed second latest price inspired by the code from below
+# https://stackoverflow.com/questions/35307405/how-to-get-second-last-record-in-a-queryset-in-django
+
+def get_latest_prices(stock):
 
     # if stock is in database, get it from database
-    target_stock = Stock.objects.filter(name=stock)
-    if target_stock:
-        query_result = Stock.objects.filter(name=stock).latest('date')
-        price = query_result.price
-        return price
+    target_stock_prices = Stock.objects.filter(name=stock).all().order_by('-date')
+    num_records = len(target_stock_prices)
+    if num_records >= 2:
+        latest_record = target_stock_prices[0]
+        second_to_latest_record = target_stock_prices[1]
+        latest_price = latest_record.price
+        second_to_latest_price = second_to_latest_record.price
+        percent_change = (latest_price / second_to_latest_price - 1) * 100
+        return latest_price, second_to_latest_price, percent_change
     # if stock is not in database, get it from web
     else:
         # import historical prices from yahoo finance 
-        period1 = int(time.mktime((date.today()-timedelta(days=5)).timetuple()))
+        period1 = int(time.mktime((date.today()-timedelta(days=10)).timetuple()))
         period2 = int(time.mktime(date.today().timetuple()))
         interval = '1d' # 1wk, 1m
         query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
         df = pd.read_csv(query) # use yahoo finance historical prices as API
         dates = df['Date'].to_list()
         closing_prices = df['Close'].to_list()
-        print(dates, closing_prices)
-        price = closing_prices[-1]
+        latest_price = closing_prices[-1]
         latest_date = dates[-1]
         # save it into the database
-        z = Stock(name=stock, date=latest_date, price=price)
+        z = Stock(name=stock, date=latest_date, price=latest_price)
         z.save()
 
-        return price
+        second_to_latest_price = closing_prices[-2]
+        percent_change = (latest_price / second_to_latest_price -1) * 100
+
+        return latest_price, second_to_latest_price, percent_change
+
+
+# def get_latest_prices(stock):
+
+#     # if stock is in database, get it from database
+#     target_stock = Stock.objects.filter(name=stock)
+#     if target_stock:
+#         query_result = Stock.objects.filter(name=stock).latest('date')
+#         price = query_result.price
+#         return price
+#     # if stock is not in database, get it from web
+#     else:
+#         # import historical prices from yahoo finance 
+#         period1 = int(time.mktime((date.today()-timedelta(days=5)).timetuple()))
+#         period2 = int(time.mktime(date.today().timetuple()))
+#         interval = '1d' # 1wk, 1m
+#         query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
+#         df = pd.read_csv(query) # use yahoo finance historical prices as API
+#         dates = df['Date'].to_list()
+#         closing_prices = df['Close'].to_list()
+#         print(dates, closing_prices)
+#         price = closing_prices[-1]
+#         latest_date = dates[-1]
+#         # save it into the database
+#         z = Stock(name=stock, date=latest_date, price=price)
+#         z.save()
+
+#         return price
+
 
 
 @login_required
@@ -69,10 +108,14 @@ def userPage(request):
         # stock_prices = [120] * len(stock_list)
 
         # giving me 500 status code.. maybe hitting yahoo finance too many time?
-        stock_prices = []
+        latest_prices = []
+        second_latest_prices = []
+        changes = []
         for stock in stock_list:
-            price = get_latest_price(stock)
-            stock_prices.append(round(price,2))
+            latest_price, second_latest_price, change = get_latest_prices(stock)
+            latest_prices.append(round(latest_price,2))
+            second_latest_prices.append(round(second_latest_price, 2))
+            changes.append(round(change, 2))
 
         # comment_list = []
         # date_created_list = []
@@ -86,14 +129,14 @@ def userPage(request):
         #                 comment_list.append(q['comment'])
         #             date_created_list.append(q['date_made'])
 
-        print(stock_list)
-        print(stock_prices)
+        # print(stock_list)
+        # print(latest_prices)
         # print(comment_list)
         # print(date_created_list)
 
         context = {
             'the_user': the_user,
-            'users_stocks': zip(stock_list, stock_prices),
+            'users_stocks': zip(stock_list, latest_prices, second_latest_prices, changes),
         }
     return render(request, 'stocks/UserPage.html', context)
 
