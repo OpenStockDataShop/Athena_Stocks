@@ -4,6 +4,15 @@ from django.db import models
 class Stock(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateField()
+    price = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
+# Model for historical stock data including  sentiment scores
+class StockNews(models.Model):
+    name = models.CharField(max_length=255)
+    date = models.DateField()
     open = models.FloatField()
     high = models.FloatField()
     low = models.FloatField()
@@ -17,7 +26,6 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.name
-
 # create stock_ticker model here
 
 
