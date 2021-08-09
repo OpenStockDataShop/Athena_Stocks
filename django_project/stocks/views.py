@@ -36,13 +36,14 @@ def get_latest_price(stock):
     # if stock is not in database, get it from web
     else:
         # import historical prices from yahoo finance 
-        period1 = int(time.mktime((date.today()-timedelta(days=1)).timetuple()))
+        period1 = int(time.mktime((date.today()-timedelta(days=5)).timetuple()))
         period2 = int(time.mktime(date.today().timetuple()))
         interval = '1d' # 1wk, 1m
         query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
         df = pd.read_csv(query) # use yahoo finance historical prices as API
         dates = df['Date'].to_list()
         closing_prices = df['Close'].to_list()
+        print(dates, closing_prices)
         price = closing_prices[-1]
         latest_date = dates[-1]
         # save it into the database

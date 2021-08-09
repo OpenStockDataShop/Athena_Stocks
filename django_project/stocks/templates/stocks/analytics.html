@@ -19,21 +19,36 @@
 
     <div class="table-container">
         <div class="table-section">
-            <h1>Momentum based predictions</h1>
-            <table class="table">
-                <tr>
-                    <th>Stock Name</th>
-                    <th>20-day moving average prices</th>
-                    <th>Trading Recommendation</th>
-                </tr>
-                {% for stock, twentyprice, rec in momentum_rec%}
-                <tr>
-                    <td>{{stock}}</td>
-                    <td>{{twentyprice}}</td>
-                    <td>{{rec}}</td>
-                </tr>
+
+            <h1>Sentiment analysis on latest news </h1>
+            <div>
+                You can go to the yahoo finance news page if you click on the button
+            </div>
+            <br>
+            <div class="sentiment-section">
+                {% for stock, score in sentiment %}
+                {% if score > 0.5 %}
+                <a class="btn btn-success font-weight-bold" href="https://finance.yahoo.com/quote/{{stock}}/news?p={{stock}}">
+                    {{stock}}
+                        <svg id="happy-emoji" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                </a>
+                {% else %}
+                <a class="btn btn-danger font-weight-bold" href="https://finance.yahoo.com/quote/{{stock}}/news?p={{stock}}">
+                    {{stock}}
+                        <svg id="sad-emoji" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                </a>
+                {% endif %}
                 {% endfor %}
-            </table>
+            </div>
+
+            <br>
+            <br>
+
+            <h1>Momentum based predictions</h1>
             <div>
                 We calculated the latest 20 trading day moving average prices. 
                 The program recommends:
@@ -49,23 +64,26 @@
                     </li>
                 </ul>
             </div>
-        </div>
-        <div class="table-section">
-            <h1>LSTM based predictions</h1>
             <table class="table">
-                <tr>
+                <tr class="thead-light">
                     <th>Stock Name</th>
-                    <th>Predicted prices</th>
+                    <th>20-day moving average prices</th>
                     <th>Trading Recommendation</th>
                 </tr>
-                {% for stock, price, rec in lstm_rec%}
+                {% for stock, twentyprice, rec in momentum_rec%}
                 <tr>
                     <td>{{stock}}</td>
-                    <td>{{price}}</td>
+                    <td>{{twentyprice}}</td>
                     <td>{{rec}}</td>
                 </tr>
                 {% endfor %}
             </table>
+
+            <br>
+            <br>
+
+
+            <h1>LSTM based predictions</h1>
             <div>
                 The program predicts today's closing price using LSTM model and 
                 the program recommends:
@@ -81,13 +99,33 @@
                     </li>
                 </ul>
             </div>
+            <table class="table">
+                <tr class="thead-light">
+                    <th>Stock Name</th>
+                    <th>Predicted prices</th>
+                    <th>Trading Recommendation</th>
+                </tr>
+                {% for stock, price, rec in lstm_rec%}
+                <tr>
+                    <td>{{stock}}</td>
+                    <td>{{price}}</td>
+                    <td>{{rec}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <br>
+            <br>
+            <div>
+                **Disclosure: Stocks investing in general are risky and can result in considerable loss. 
+                We are not financial experts and are not responsible for any profit/loss following the recommendations above. 
+                Please trade at your own risk. 
+            </div>
+
         </div>
 
-        <div>
-            **Disclosure: Stocks investing in general are risky and can result in considerable loss. 
-            We are not financial experts and are not responsible for any profit/loss following the recommendations above. 
-            Please trade at your own risk. 
-        </div>
+        <br>
+        <br>
     </div>
 
 
