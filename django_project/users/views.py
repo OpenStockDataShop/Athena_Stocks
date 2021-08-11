@@ -27,7 +27,11 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/')
+            context = {
+                'the_user': username,
+                'users_stocks': zip([], [], [], []),
+            }
+            return render(request, 'stocks/UserPage.html', context)
         else:
             print(form.errors)
             return render(request, 'registration/register.html', {'form': form})
