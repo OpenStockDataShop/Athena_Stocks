@@ -5,7 +5,7 @@ by [Aditya Sharoff](asharoff@pdx.edu), [Felina Kang](felina2@pdx.edu), [Haeyoon 
 
 ## **Project Description**
 ---
-One stop shop for collection of Data Analytics and Data Visualization tool(s) to help with stock market trading decision making.We came across several open source AI/ML models and they were reported to have varying degrees of success on the historical data. However the real test is to see how well these models function current real world data and test the performance against real and/or simulated investments. For this end, we have two pronged approach.
+One stop shop for collection of Data Analytics and Data Visualization tool(s) to help with stock market trading decision making. We came across several open source AI/ML models and they were reported to have varying degrees of success on the historical data. However the real test is to see how well these models function current real world data and test the performance against real and/or simulated investments. For this end, we have two pronged approach.
   * Use custom web-scraper to collect the relevant data about selected stock(s) needed AI/ML models  and store then in database.
   * Run the stored time series datasets in the database through collection of AI/ML models to provide predictions on future stock trends which can be useful buy/sell/hold kind of decision making. 
 
@@ -21,24 +21,25 @@ Due to limited timeline for the course project, we want focus on UI and data pip
 
 Here are the high level summary of tasks required achieve the said goal(s) for the project.  
 
-- [ ] **Web-Scraper** for Data Collection
-  - [ ] Gather historic/current prices of selected stock(s) and store to DB
-  - [ ] Gather historic/current news relevant to selected stock(s) `+` URL(s) and store to DB
-- [ ] **AI/ML models** to process collected data and provide predictions
-  - [ ] Generate Abstracted-Text summary of new articles collected by Web-Scraper
-  - [ ] LSTM model for buy/sell/hold predictions for a given stock
+- [x] **Web-Scraper** for Data Collection
+  - [x] Gather historic/current prices of selected stock(s) and store to DB
+  - [x] Gather historic/current news relevant to selected stock(s) `+` URL(s) and store to DB
+- [x] **AI/ML models** to process collected data and provide predictions
+  - [x] Generate Abstracted-Text summary of new articles collected by Web-Scraper
+  - [x] Generate sentiment scores based on the generated summary
+  - [x] LSTM model for buy/sell/hold predictions for a given stock
 - [ ] **Frontend UI** on client side
-  - [ ] Ability for user to enter the stock(s) they are interested in for day-to-day tracking 
+  - [x] Ability for user to enter the stock(s) they are interested in for day-to-day tracking 
   - [ ] Ability for user to enter there personal portfolio across multiple platforms through CSV file
   - [ ] Data Visualization tool(s) for statistics on user portfolio
   - [ ] Data Visualization tool(s) for performance statistics on selected stock(s)
 - [ ] **Backend** on server side
   - [ ] Create email for the organization and heroku account associated with it.
-  - [ ] Build backend server using Flask library
+  - [x] Build backend server using Django library
   - [ ] Deploy the application using the organization's heroku account. 
-- [ ] **Database**
-  - [ ] Define Schema for storing User Accounts and time series dataset for the stock(s)
-  - [ ] Implement database interaction based on the Schema 
+- [x] **Database**
+  - [x] Define Schema for storing User Accounts and time series dataset for the stock(s)
+  - [x] Implement database interaction based on the Schema 
 
 ## **Web Development Stack**
 ---
