@@ -12,35 +12,28 @@ from sklearn.preprocessing import MinMaxScaler
 import time
 from datetime import date, timedelta
 import pandas as pd
+import os
 
 def get_lstm_recommendation(stock):
     """
         input: a single ticker
         output: predicted price for the stock
     """
-    print(stock)
-
     # import historical prices from yahoo finance 
     period1 = int(time.mktime((date.today()-timedelta(days=365)).timetuple()))
     period2 = int(time.mktime(date.today().timetuple()))
     interval = '1d' # 1wk, 1m
     query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
     df = pd.read_csv(query) # use yahoo finance historical prices as API
-    # print(df.head(5))
 
     # select input features
-    data_length = len(df)
-    # print(data_length)
     all_data = df['Close'].values.astype(float)
 
-        # process the data inside the file
-
-    # print(all_data)
+    # process the data inside the file
 
     test_data_size = 20
 
     train_data = all_data[:-test_data_size]
-    test_data = all_data[-test_data_size:]
 
     scaler = MinMaxScaler(feature_range=(-1, 1))
     train_data_normalized = scaler.fit_transform(train_data .reshape(-1, 1))
@@ -79,28 +72,42 @@ def get_lstm_recommendation(stock):
             predictions = self.linear(lstm_out.view(len(input_seq), -1))
             return predictions[-1]
 
-    model = LSTM()
-    loss_function = nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
 
-    epochs = 10
+    date_model_updated = df['Date'].values.tolist()[-1]
+    saved_model = f'{stock}-{date_model_updated}.pt'
 
-    for i in range(epochs):
-        for seq, labels in train_inout_seq:
-            optimizer.zero_grad()
-            model.hidden_cell = (torch.zeros(1, 1, model.hidden_layer_size),
-                            torch.zeros(1, 1, model.hidden_layer_size))
+    if os.path.isfile(saved_model):
+        # print("using trained model")
+        model = LSTM()
+        model.load_state_dict(torch.load(saved_model))
 
-            y_pred = model(seq)
+    else: 
+        # print("training")
+        model = LSTM()
+        loss_function = nn.MSELoss()
+        optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
 
-            single_loss = loss_function(y_pred, labels)
-            single_loss.backward()
-            optimizer.step()
+        epochs = 10
 
-        if i%25 == 1:
-            print(f'epoch: {i:3} loss: {single_loss.item():10.8f}')
+        for i in range(epochs):
+            for seq, labels in train_inout_seq:
+                optimizer.zero_grad()
+                model.hidden_cell = (torch.zeros(1, 1, model.hidden_layer_size),
+                                torch.zeros(1, 1, model.hidden_layer_size))
 
-    # print(f'epoch: {i:3} loss: {single_loss.item():10.10f}')
+                y_pred = model(seq)
+
+                single_loss = loss_function(y_pred, labels)
+                single_loss.backward()
+                optimizer.step()
+
+            if i%25 == 1:
+                print(f'epoch: {i:3} loss: {single_loss.item():10.8f}')
+
+        # print(f'epoch: {i:3} loss: {single_loss.item():10.10f}')
+
+        # save model
+        torch.save(model.state_dict(), saved_model)
 
     # provide predictions
 
