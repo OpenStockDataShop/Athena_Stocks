@@ -2,7 +2,10 @@
 
 by [Aditya Sharoff](asharoff@pdx.edu), [Felina Kang](felina2@pdx.edu), [Haeyoon Chang](haeyoon@pdx.edu) and [Vinodh Kotipalli](vkotipa2@pdx.edu) 2021
 
-<span style="font-size: 16px"><b style="color:red">Disclaimer:</b> Stocks investing in general are risky and can result in considerable loss. This is a academic project and we are not financial experts and are not responsible for any profit/loss from provided recommendations. Please don't use the information for trading.</span>
+<div style="font-size: 16px"><b style="color:red">Disclaimer:</b> Stocks investing in general are risky and can result in considerable loss. This is a academic project and we are not financial experts and are not responsible for any profit/loss from provided recommendations. Please don't use the information for trading.</div>
+
+<br></br>
+
 ## **Project Description**
 ---
 One stop shop for collection of Data Analytics and Data Visualization tool(s) to help with stock market trading decision making. We came across several open source AI/ML models and they were reported to have varying degrees of success on the historical data. However the real test is to see how well these models function current real world data and test the performance against real and/or simulated investments. For this end, we have two pronged approach.
