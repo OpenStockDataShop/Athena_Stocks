@@ -2,8 +2,11 @@
 
 by [Aditya Sharoff](asharoff@pdx.edu), [Felina Kang](felina2@pdx.edu), [Haeyoon Chang](haeyoon@pdx.edu) and [Vinodh Kotipalli](vkotipa2@pdx.edu) 2021
 
+---
 <!-- Disclaimer -->
 <p style="font-size: 16px;"><b style="color:red;">Disclaimer:</b> Stocks investing in general are risky and can result in considerable loss. This is a academic project and we are not financial experts and are not responsible for any profit/loss from provided recommendations. Please don't use the information for trading.</p>
+
+---
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -42,6 +45,7 @@ by [Aditya Sharoff](asharoff@pdx.edu), [Felina Kang](felina2@pdx.edu), [Haeyoon 
 </details>
 
 <!-- PROJECT DESCRIPTION -->
+
 ## **Project Description**
 ---
 
@@ -70,15 +74,17 @@ In order to make process more user friendly and get quick enough feedback to use
   * PostgreSQL
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 ---
 To get a local copy up and running follow these simple steps.
 
 ### **Prerequisites**
+---
 
-Necessary software downloads
 * Python
 * Poetry (Python packaging and dependency management)
+* VS Code (or any other editer of your preference)
 * Python Libraries (already defined in pyproject.toml)
   * Django
   * GoogleNews
@@ -86,6 +92,7 @@ Necessary software downloads
   * etc
 
 ### **Installation**
+---
 
 1. Fork the repo under your github account 
   
@@ -113,7 +120,7 @@ Necessary software downloads
     poetry run python .\django_project\manage.py runserver
    ```
 5. Source code is available in the folder `django_project` shown below is list of implementation file that may interest you
-   ```bash
+     ```bash
     ├── django_project
     │   ├── django_project
     |   ├── stocks
@@ -129,7 +136,7 @@ Necessary software downloads
     ├── pyroject.toml
     ├── LICENSE
     └── README.md
-```
+    ```
 6. Additional information on poetry for developers 
    * To use the already created python virtual environment 
     ```sh
@@ -146,6 +153,8 @@ Necessary software downloads
     poetry remove <package-name>
     ```  
       Note: Additional resources for poetry https://python-poetry.org/docs/ 
+
+
 ## **Project Status**
 ---
 Below is the list of features/activities we focused on for this project so far
@@ -164,6 +173,7 @@ Below is the list of features/activities we focused on for this project so far
 * We tried to build the application modular enough to swap/add more models in future. 
 
 ### **Roadmap**
+---
 Here are the high level summary of tasks and progress made so far
 
 - [x] **Web-Scraper** for Data Collection
@@ -195,6 +205,7 @@ Here are the high level summary of tasks and progress made so far
 
 
 ### **Work Summary**
+---
 Here is the details on individual contributions 
 * **Aditya Sharoff** focused on 
   * Building Django infrastructure
@@ -222,7 +233,7 @@ Add details here
 * etc.. Add details here
 
 ## **License**
-
+---
 This work is made available under the "MIT License". Please
 see the file `LICENSE` in this distribution for license
 terms.
