@@ -15,12 +15,12 @@ def get_momentum_recommendation(stock):
     interval = '1d' # 1wk, 1m
     query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
     df = pd.read_csv(query) # use yahoo finance historical prices as API
-    print(df.head(5))
+    # print(df.head(5))
 
     # calculate 20-day average 
     closing_prices = df['Close'].to_list()
     twenty_day_average = sum(closing_prices[:-1])/len(closing_prices[:-1])
-    print(closing_prices)
+    # print(closing_prices)
 
     rec = ''
     if closing_prices[-1] < twenty_day_average:
