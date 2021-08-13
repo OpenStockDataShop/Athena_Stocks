@@ -225,7 +225,12 @@ Here is the details on individual contributions
 
 ## **Examples and Screen Captures**
 ---
-Add details here
+* Home Page
+![Home Page](demo_screen_captures/Athena_Stocks_Homepage.jpeg)&nbsp;
+* Example User Page
+  ![User Page](demo_screen_captures/Athena_Stocks_UserPage.jpeg)&nbsp;
+* Example Analytics Page
+  ![Analytics Page](demo_screen_captures/Athena_Stocks_Analytics.jpeg)&nbsp;
 
 ## **Acknowledgements**
 ---
@@ -241,7 +246,7 @@ Add details here
 * [yfinance pypi library documentation](https://pypi.org/project/yfinance)
 * [Stackoverflow, making Pandas DataFrame apply() use all cores](https://stackoverflow.com/questions/45545110/make-pandas-dataframe-apply-use-all-cores)
 * [Stackoverflow, converting string input of of form 'x days ago' to python datetime](https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime)
-* Meghan Mueller-Cox and Shay Green, examples of README markdown from previous projects. 
+* Meghan Mueller-Cox and Shay Green for examples of README markdown from previous projects. 
 * etc.. Add details here
 
 ## **License**
