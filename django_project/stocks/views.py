@@ -9,6 +9,7 @@ from stock_analytics.models import Stock
 # Create your views here.
 
 
+#inspired by Corey Schafer Tutorials and https://stackoverflow.com/questions/63782504/how-to-send-dictionary-context-data-to-view-from-template-in-django
 def home(request):
     context = {
         'user': request.user.username,
@@ -16,7 +17,7 @@ def home(request):
     }
     return render(request, 'stocks/home.html', context)
 
-
+#inspired by Corey Schafer Tutorials on youtube, link in readme and https://stackoverflow.com/questions/63782504/how-to-send-dictionary-context-data-to-view-from-template-in-django
 def about(request):
     context = {
         'user': request.user.username
@@ -91,7 +92,7 @@ def get_latest_prices(stock):
 #         return price
 
 
-
+#login required bit inspired by https://stackoverflow.com/questions/59006232/how-to-require-login-by-the-user-in-django
 @login_required
 def userPage(request):
     if(request.user.is_authenticated):
@@ -140,6 +141,6 @@ def userPage(request):
         }
     return render(request, 'stocks/UserPage.html', context)
 
-
+#Corey Schafer taught us how to use render method in Django, please check out his tutorials
 def Donate(request):
     return render(request, 'stocks/Donate.html')

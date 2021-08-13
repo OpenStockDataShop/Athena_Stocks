@@ -8,7 +8,7 @@ from datetime import datetime
 
 # placeholder code based on https://stackoverflow.com/questions/13523286/how-to-add-placeholder-to-forms-of-django-registration
 
-
+#https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file and https://stackoverflow.com/questions/55782147/how-can-i-send-data-to-a-database-from-a-view-in-django
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -53,7 +53,7 @@ def register(request):
 
     return render(request, 'registration/register.html', context)
 
-
+#inspired by https://stackoverflow.com/questions/25251719/how-can-i-logout-a-user-in-django
 def logout_view(request):
     logout(request)
     request.user = None
@@ -82,6 +82,7 @@ def user_view(request, the_user):
     
     return render(request, 'registration/the_stocks.html', context)
 
+#inspired by https://stackoverflow.com/questions/3805958/how-to-delete-a-record-in-django-models and https://stackoverflow.com/questions/57842727/how-to-select-only-one-row-for-one-user-in-django
 def delete(request, the_user, stock):
     stock = stock.lower()
     query_result = m.Fav_Stocks.objects.filter(user=the_user).get(stocks=stock)
