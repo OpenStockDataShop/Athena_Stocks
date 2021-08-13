@@ -6,6 +6,11 @@ from stocks import models as m
 from django.utils import timezone
 from datetime import datetime
 
+from django.contrib import messages
+import pandas as pd
+import os
+import sys
+
 # placeholder code based on https://stackoverflow.com/questions/13523286/how-to-add-placeholder-to-forms-of-django-registration
 
 #https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file and https://stackoverflow.com/questions/55782147/how-can-i-send-data-to-a-database-from-a-view-in-django
@@ -63,15 +68,39 @@ def logout_view(request):
 def user_view(request, the_user):
     if request.method == 'POST':
 
+        projdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/').replace('C:', '')
+        datadir = projdir.replace('\\', '/') + '/stock_analytics/data'
+        csvpath = datadir.replace('\\','/') + '/nasdaq_screener_ticker_database.csv'
+ 
+        if os.path.exists(csvpath):
+            dataset = pd.read_csv(csvpath)
+        else:
+            dataset = pd.DataFrame()
+
         username = request.POST.get('username')
         stock = request.POST.get('stock').lower()
         author = request.user
         date_made = datetime.now()
+
+        data = dict()
+
+        valid_stock = True
         if(username != "" and stock != ""):
-            z = m.Fav_Stocks(user=username, stocks=stock,
+            if (dataset.shape[0] > 0):
+                valid_stock = False
+                if stock in dataset['Symbol'].str.lower().tolist():
+                    valid_stock = True
+                else:
+                     messages.error(request, "Entered stock = " + stock + " is not a valid stock symbol")
+            if valid_stock:   
+                query_result = m.Fav_Stocks.objects.filter(user=the_user,stocks=stock)
+                if len(query_result) > 0:
+                    messages.info(request, "Entered stock = " + stock + " already exists in your favorite stocks.")
+                else:
+                    z = m.Fav_Stocks(user=username, stocks=stock,
                              date_made=date_made, author=author)
-            z.save()
-            return redirect('/UserPage')
+                    z.save()
+            return redirect('/UserPage',data)
     
     form = cFav_Stocks
 
@@ -85,8 +114,9 @@ def user_view(request, the_user):
 #inspired by https://stackoverflow.com/questions/3805958/how-to-delete-a-record-in-django-models and https://stackoverflow.com/questions/57842727/how-to-select-only-one-row-for-one-user-in-django
 def delete(request, the_user, stock):
     stock = stock.lower()
-    query_result = m.Fav_Stocks.objects.filter(user=the_user).get(stocks=stock)
-    query_result.delete()
+    query_result = m.Fav_Stocks.objects.filter(user=the_user,stocks=stock)
+    if len(query_result) > 0:
+        query_result.delete()
     
     return redirect('/UserPage')
 
