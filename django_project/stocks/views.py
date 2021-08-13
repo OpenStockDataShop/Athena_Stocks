@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate
 import time
 from datetime import date, timedelta
 import pandas as pd
-from stock_analytics.models import Stock
+from stock_analytics.models import StockPrices
 # Create your views here.
 
 
@@ -32,7 +32,7 @@ def about(request):
 def get_latest_prices(stock):
 
     # if stock is in database, get it from database
-    target_stock_prices = Stock.objects.filter(name=stock).all().order_by('-date')
+    target_stock_prices = StockPrices.objects.filter(symbol=stock).all().order_by('-date')
     num_records = len(target_stock_prices)
     if num_records >= 2:
         latest_record = target_stock_prices[0]
@@ -54,7 +54,7 @@ def get_latest_prices(stock):
         latest_price = closing_prices[-1]
         latest_date = dates[-1]
         # save it into the database
-        z = Stock(name=stock, date=latest_date, price=latest_price)
+        z = StockPrices(symbol=stock, date=latest_date, price=latest_price)
         z.save()
 
         second_to_latest_price = closing_prices[-2]
