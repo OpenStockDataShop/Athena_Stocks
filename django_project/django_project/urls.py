@@ -21,6 +21,7 @@ from django.contrib.auth.views import LoginView
 from users import views as user_views
 from users.Forms import Custom_Login_Form
 
+#https://www.youtube.com/watch?v=q4jPR-M0TAQ We learned how to include urlpatterns from Corey Schafer please check out his videos
 urlpatterns = [
     path('admin/', admin.site.urls, name='site-admin'),
     path('register/', user_views.register, name='register'),

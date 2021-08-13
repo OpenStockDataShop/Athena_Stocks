@@ -27,6 +27,15 @@
                     <span><a class="btn my-button" type="button" href="/enter_data/{{the_user}}"><svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>  ADD FAVORITE STOCK</a></span>
                 </h1>
                 <div>The latest closing price and daily change from the prior trading day</div>
+                <!-- Code reuse for messages from https://pythoncircle.com/post/700/how-to-display-flash-messages-in-django-templates/ -->
+                {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message | safe }}
+                </div>
+                {% endfor %}
 
                 <div class="favorite-section">
 
