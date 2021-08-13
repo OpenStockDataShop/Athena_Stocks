@@ -247,6 +247,7 @@ Here is the details on individual contributions
 * [Stackoverflow, making Pandas DataFrame apply() use all cores](https://stackoverflow.com/questions/45545110/make-pandas-dataframe-apply-use-all-cores)
 * [Stackoverflow, converting string input of of form 'x days ago' to python datetime](https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime)
 * Meghan Mueller-Cox and Shay Green for examples of README markdown from previous projects. 
+* [How to display flash messages in Django templates](https://pythoncircle.com/post/700/how-to-display-flash-messages-in-django-templates)
 * etc.. Add details here
 
 ## **License**
