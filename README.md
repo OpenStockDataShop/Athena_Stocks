@@ -259,6 +259,8 @@ Here is the details on individual contributions
 * [Django documentation](https://docs.djangoproject.com/en/3.2/)
 * [Time Series Prediction using LSTM with PyTorch in Python](https://stackabuse.com/time-series-prediction-using-lstm-with-pytorch-in-python)
 * [Very Academy - Django tutorial videos](https://www.youtube.com/c/veryacademy/videos)
+* [Very Academy - Django tutorial videos](https://www.youtube.com/c/veryacademy/videos)
+* [Youtube Corey Schafer - Django tutorial videos](https://www.youtube.com/watch?v=q4jPR-M0TAQ)
 
 ## **License**
 ---
