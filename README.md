@@ -218,8 +218,9 @@ Here is the details on individual contributions
   * Building Django infrastructure
   * Contributed to development of webapp and database (Django) and front end development
 * **Felina Kang** focused on 
-  * Frontend design
-  * etc... Add details here
+  * Frontend design for login page
+  * Frontend and form design for registration page
+  * Other miscellaneous frontend design
 * **Haeyoon Chang** focused on 
   * Momentum trading prediction model 
   * Price based LSTM  prediction model
