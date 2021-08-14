@@ -216,7 +216,7 @@ Here are the high level summary of tasks and progress made so far
 Here is the details on individual contributions 
 * **Aditya Sharoff** focused on 
   * Building Django infrastructure
-  * etc... Add details here
+  * Contributed to development of webapp and database (Django) and front end development
 * **Felina Kang** focused on 
   * Frontend design
   * etc... Add details here
