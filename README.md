@@ -224,7 +224,7 @@ Here is the details on individual contributions
   * Momentum trading prediction model 
   * Price based LSTM  prediction model
   * Analytics page integration
-  * etc... Add details here
+  * UserPage price API integration and layout
 * **Vinodh Kotipalli** focused on 
   * Web-scrapping to gathering news articles for a given stock
   * Sentiment analysis based on the news articles
@@ -255,12 +255,12 @@ Here is the details on individual contributions
 * [Stackoverflow, converting string input of of form 'x days ago' to python datetime](https://stackoverflow.com/questions/12566152/python-x-days-ago-to-datetime)
 * Meghan Mueller-Cox and Shay Green for examples of README markdown from previous projects. 
 * [How to display flash messages in Django templates](https://pythoncircle.com/post/700/how-to-display-flash-messages-in-django-templates)
-* etc.. Add details here
+* [Django documentation](https://docs.djangoproject.com/en/3.2/)
+* [Time Series Prediction using LSTM with PyTorch in Python](https://stackabuse.com/time-series-prediction-using-lstm-with-pytorch-in-python)
+* [Very Academy - Django tutorial videos](https://www.youtube.com/c/veryacademy/videos)
 
 ## **License**
 ---
 This work is made available under the "MIT License". Please
 see the file `LICENSE` in this distribution for license
 terms.
-
-
