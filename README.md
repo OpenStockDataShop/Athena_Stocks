@@ -242,6 +242,7 @@ Here is the details on individual contributions
 
 ## **Acknowledgements**
 ---
+* [Adding Placeholder Text to forms](https://stackoverflow.com/questions/13523286/how-to-add-placeholder-to-forms-of-django-registration)
 * [Open Source Collection Machine Learning models of Stock Prediction](https://awesomeopensource.com/project/huseinzol05/Stock-Prediction-Models)
 * [Webscraping and text summation of new articles](https://towardsdatascience.com/easily-scrape-and-summarize-news-articles-using-python-dfc7667d9e74)
 * [Sentiment analysis using NLTK](https://realpython.com/python-nltk-sentiment-analysis)
@@ -261,6 +262,11 @@ Here is the details on individual contributions
 * [Very Academy - Django tutorial videos](https://www.youtube.com/c/veryacademy/videos)
 * [Very Academy - Django tutorial videos](https://www.youtube.com/c/veryacademy/videos)
 * [Youtube Corey Schafer - Django tutorial videos](https://www.youtube.com/watch?v=q4jPR-M0TAQ)
+* [Inserting data to Django database from views part 1](https://stackoverflow.com/questions/35602049/how-to-insert-data-to-django-database-from-views-py-file)
+* [Inserting data to Django database from views part 2](https://stackoverflow.com/questions/55782147/how-can-i-send-data-to-a-database-from-a-view-in-django)
+* [Creating forms from models](https://www.geeksforgeeks.org/django-modelform-create-form-from-models/)
+* [Customizing built-in Django forms](https://www.notimedad.dev/customizing-django-builtin-login-form/)
+* [Bootstrap Documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 
 ## **License**
 ---
