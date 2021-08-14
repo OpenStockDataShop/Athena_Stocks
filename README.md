@@ -267,6 +267,7 @@ Here is the details on individual contributions
 * [Creating forms from models](https://www.geeksforgeeks.org/django-modelform-create-form-from-models/)
 * [Customizing built-in Django forms](https://www.notimedad.dev/customizing-django-builtin-login-form/)
 * [Bootstrap Documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+* [Data for Stock Symbol list from NASDAQ](https://www.nasdaq.com/market-activity/stocks/screener)
 
 ## **License**
 ---
