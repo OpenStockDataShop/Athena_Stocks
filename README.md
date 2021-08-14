@@ -240,7 +240,7 @@ Here is the details on individual contributions
 * Example Analytics Page
   ![Analytics Page](demo_screen_captures/Athena_Stocks_Analytics.jpeg)&nbsp;
 * Demo Video 
- [Video](https://media.pdx.edu/media/t/1_k4ikdwum?st=600)
+ [https://media.pdx.edu/media/t/1_k4ikdwum?st=600](https://media.pdx.edu/media/t/1_k4ikdwum?st=600)
 
 ## **Acknowledgements**
 ---
