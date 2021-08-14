@@ -115,6 +115,13 @@ To get a local copy up and running follow these simple steps.
 
     poetry install
     ```
+4. Setup database in local repo (need this step after cloning the repo fir first time)
+   ```sh
+    poetry run python .\django_project\manage.py makemigrations
+
+    poetry run python .\django_project\manage.py migrate
+   ```
+   
 4. Start the Local server and open server link in browser
    ```sh
     poetry run python .\django_project\manage.py runserver
