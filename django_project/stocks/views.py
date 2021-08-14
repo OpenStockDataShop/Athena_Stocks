@@ -63,35 +63,6 @@ def get_latest_prices(stock):
 
         return latest_price, second_to_latest_price, percent_change
 
-
-# def get_latest_prices(stock):
-
-#     # if stock is in database, get it from database
-#     target_stock = Stock.objects.filter(name=stock)
-#     if target_stock:
-#         query_result = Stock.objects.filter(name=stock).latest('date')
-#         price = query_result.price
-#         return price
-#     # if stock is not in database, get it from web
-#     else:
-#         # import historical prices from yahoo finance 
-#         period1 = int(time.mktime((date.today()-timedelta(days=5)).timetuple()))
-#         period2 = int(time.mktime(date.today().timetuple()))
-#         interval = '1d' # 1wk, 1m
-#         query = f'https://query1.finance.yahoo.com/v7/finance/download/{stock}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
-#         df = pd.read_csv(query) # use yahoo finance historical prices as API
-#         dates = df['Date'].to_list()
-#         closing_prices = df['Close'].to_list()
-#         print(dates, closing_prices)
-#         price = closing_prices[-1]
-#         latest_date = dates[-1]
-#         # save it into the database
-#         z = Stock(name=stock, date=latest_date, price=price)
-#         z.save()
-
-#         return price
-
-
 #login required bit inspired by https://stackoverflow.com/questions/59006232/how-to-require-login-by-the-user-in-django
 @login_required
 def userPage(request):
@@ -105,10 +76,6 @@ def userPage(request):
             if(the_user == i['user']):
                 stock_list.append(i['stocks'].upper())
 
-        # # only for testing and when I input wrong ticker
-        # stock_prices = [120] * len(stock_list)
-
-        # giving me 500 status code.. maybe hitting yahoo finance too many time?
         latest_prices = []
         second_latest_prices = []
         changes = []
@@ -117,23 +84,6 @@ def userPage(request):
             latest_prices.append(round(latest_price,2))
             second_latest_prices.append(round(second_latest_price, 2))
             changes.append(round(change, 2))
-
-        # comment_list = []
-        # date_created_list = []
-        # for stock in stock_list:
-        #         query_result = Fav_Stocks.objects.filter(stocks=stock).values()
-        #         for q in query_result:
-        #             if not q['comment']:
-        #                 print("no comment")
-        #                 comment_list.append("no comment")
-        #             else:
-        #                 comment_list.append(q['comment'])
-        #             date_created_list.append(q['date_made'])
-
-        # print(stock_list)
-        # print(latest_prices)
-        # print(comment_list)
-        # print(date_created_list)
 
         context = {
             'the_user': the_user,

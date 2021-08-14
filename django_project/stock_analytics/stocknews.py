@@ -309,10 +309,6 @@ def writeStockHistoryToCSVparallel(args):
     symbol = args[0]
     period = args[1]
     getHistory = args[2]
-    #print("\t==========================Start(%s)================================\n" % symbol)
-    #for _ in Timerit(num=1,verbose=2):
-    #    df = writeStockHistoryToCSV(symbol,period,getHistory)
-    #print("\t==========================Finish(%s)================================\n" % symbol)
 
     df = writeStockHistoryToCSV(symbol,period,getHistory)
     return df
@@ -614,23 +610,4 @@ if __name__ == '__main__':
 
     #print(getSentimentScoresOnDate('2021-08-05','AAPL'))
     stocks = ['AAPL','TSLA','MSFT','INTC','AMZN','WMT']
-    #stocks = ['AAPL']
-    #for dateRange in dateRanges:
-    #    print("\n==========================DateRangeStart(%s)================================" % dateRange[0])
-    #    stockArgs = pd.DataFrame()
-    #    stockArgs['symbol'] = stocks
-    #    stockArgs['period'] = [dateRange] * len(stocks)
-    #    stockArgs['getHistory'] = getHistoricalDataSetWithPyGoogleNews
-        
-    #    #for _ in Timerit(num=1,verbose=2):
-    #    #    for stock in stocks:
-    #    #        writeStockHistoryToCSV(stock,dateRange,getHistoricalDataSetWithPyGoogleNews)
-
-    #    for _ in Timerit(num=1,verbose=2):
-    #        pool = ThreadPool(len(stocks))
-    #        results = pool.map(writeStockHistoryToCSVparallel,stockArgs.to_numpy().tolist())
-    #        pool.close()
-    #        pool.join()
-
-    #    print("==========================DateRangeEnd(%s)================================" % dateRange[1])
 

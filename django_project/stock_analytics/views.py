@@ -24,16 +24,6 @@ def index(request):
         for fav in fav_stocks:
             fav_list.append(fav.stocks.upper())
 
-        # query historical prices of the favorite stock
-        # list_of_list = []
-        # for fav in fav_list:
-        #     query_results = Stock.objects.filter(name=fav).order_by('date')
-        #     price_list = []
-        #     for s in query_results:
-        #         price_list.append(s.price)
-        #     list_of_list.append(price_list)
-
-
         # logic for 20 moving average - momentum trading
         momentum_prices = []
         momentum_recs = []
@@ -50,13 +40,6 @@ def index(request):
             rec = get_lstm_recommendation(stock)
             lstm_prices.append(rec[0])
             lstm_recs.append(rec[1])
-
-
-        # # only for testing - faster testing
-        # momentum_prices = [120] * len(fav_list)
-        # momentum_recs = [ 'Sell'] * len(fav_list)
-        # lstm_prices = [120] * len(fav_list)
-        # lstm_recs = ['Buy'] * len(fav_list)
 
         # sentiment of the latest news on the stock
         sentiment_scores = []

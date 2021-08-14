@@ -4,6 +4,7 @@ from django.db.models.fields.related import ForeignKey
 from datetime import date
 
 # Create your models here.
+#learned from Django Documentation
 class Stock(models.Model):
 
     class Meta:
